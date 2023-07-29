@@ -70,3 +70,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+Unity/AtomicAtlas/Library/
+Unity/AtomicAtlas/Logs/
+Unity/AtomicAtlas/Temp/
+Unity/AtomicAtlas/UserSettings/
+Unity/AtomicAtlas/obj/

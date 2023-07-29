@@ -1,0 +1,10 @@
+{
+    "characters": [
+        {
+            "id": "TestCharacter",
+            "data": {
+                "health": 5
+            }
+        }
+    ]
+}
