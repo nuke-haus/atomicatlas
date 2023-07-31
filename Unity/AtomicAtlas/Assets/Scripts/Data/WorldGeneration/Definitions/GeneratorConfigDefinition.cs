@@ -17,7 +17,7 @@ public enum ProvinceType // Dom 5 terrain flags, subject to change when Dom 6 is
     MANYSITES = 1024,
     DEEPSEA = 2048,
     CAVE = 4096,
-    MOUNTAINS = 4194304,
+    MOUNTAIN = 4194304,
     THRONE = 16777216,
     START = 33554432,
     NOTHRONE = 67108864,
@@ -25,19 +25,7 @@ public enum ProvinceType // Dom 5 terrain flags, subject to change when Dom 6 is
     COLDER = 1073741824
 }
 
-[Serializable]
-public class ProvinceTypeData
+public class GeneratorConfigDefinition
 {
-    public ProvinceType ProvinceType;
-}
-
-[Serializable]
-public class ProvinceTypeDefinition : Definition<ProvinceTypeData>
-{
-    public ProvinceType ProvinceType => data.ProvinceType;
-   
-    public ProvinceTypeDefinition(string id) : base(id)
-    {
-
-    }
+    // TODO: Copy over all generator settings stuff from mapnuke
 }

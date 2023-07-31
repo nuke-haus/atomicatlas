@@ -45,11 +45,15 @@ public static class EnumExtensions
     {
         if (enabled)
         {
-            return (Enum)(object)((ulong)(object)value | (ulong)(object)flags);
+            ulong longFlags = Convert.ToUInt64(flags);
+            ulong longValue = Convert.ToUInt64(value);
+            return (Enum)(object)(longValue | longFlags);
         }
         else
         {
-            return (Enum)(object)((ulong)(object)value & ~(ulong)(object)flags);
+            ulong longFlags = Convert.ToUInt64(flags);
+            ulong longValue = Convert.ToUInt64(value);
+            return (Enum)(object)(longValue & ~longFlags);
         }
     }
 

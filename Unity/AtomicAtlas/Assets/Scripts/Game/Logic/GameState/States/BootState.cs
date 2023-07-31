@@ -10,7 +10,7 @@ public class BootState : GameState<GameStateType>
 
     public override GameStateType GetNextState()
     {
-        return GameStateType.MAIN_MENU;
+        return GameStateType.GAMEPLAY;
     }
 
     public override bool CanExitState()
@@ -20,8 +20,6 @@ public class BootState : GameState<GameStateType>
 
     public override void OnEnter()
     {
-        Debug.Log("[BOOT STATE] Booting game");
-
-        DependencyInjector.Resolve<IFeatureManager>(); // Construct the feature manager so it loads features from disk
+        
     }
 }

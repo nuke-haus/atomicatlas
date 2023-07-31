@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SceneManager: MonoBehaviour
 {
-    private IGameStateManager gameStateManager = DependencyInjector.Resolve<IGameStateManager>();
+    private IGameStateManager gameStateManager;
 
     public static SceneManager GlobalInstance
     {
@@ -15,6 +15,7 @@ public class SceneManager: MonoBehaviour
     void Start()
     {
         GlobalInstance = this;
+        gameStateManager = DependencyInjector.Resolve<IGameStateManager>();
     }
 
     void Update()

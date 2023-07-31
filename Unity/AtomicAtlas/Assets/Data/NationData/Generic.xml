@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NationData>
+  <Nation>
+    <Name>Generic Plains</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>PLAINS</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Forest</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>FOREST</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Cave</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>CAVE</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Mountain</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>MOUNTAIN</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Highland</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>HIGHLAND</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Wasteland</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>WASTE</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Swamp</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>SWAMP</CapProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>PLAINS</CapRingProvinceType>
+    <CapRingProvinceType>FOREST</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Island</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0.2</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>PLAINS</CapProvinceType>
+    <CapRingProvinceType>SEA</CapRingProvinceType>
+    <CapRingProvinceType>SEA</CapRingProvinceType>
+    <CapRingProvinceType>SEA</CapRingProvinceType>
+    <CapRingProvinceType>SEA FOREST</CapRingProvinceType>
+    <CapRingProvinceType>SEA DEEPSEA</CapRingProvinceType>
+  </Nation>
+  <Nation>
+    <Name>Generic Water</Name>
+    <NumericID>-1</NumericID>
+    <WaterPercentage>0.4</WaterPercentage>
+    <Age>ALL</Age>
+    <CapRingSize>5</CapRingSize>
+    <CapProvinceType>SEA</CapProvinceType>
+    <CapRingProvinceType>SEA</CapRingProvinceType>
+    <CapRingProvinceType>SEA</CapRingProvinceType>
+    <CapRingProvinceType>SEA</CapRingProvinceType>
+    <CapRingProvinceType>SEA FOREST</CapRingProvinceType>
+    <CapRingProvinceType>SEA DEEPSEA</CapRingProvinceType>
+  </Nation>
+</NationData>

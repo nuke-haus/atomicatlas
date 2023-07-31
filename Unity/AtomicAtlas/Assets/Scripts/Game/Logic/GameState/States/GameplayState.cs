@@ -11,7 +11,7 @@ public class GameplayState : GameState<GameStateType>
     public override GameStateType GameStateType => GameStateType.GAMEPLAY;
 
     private GameStateType nextState = GameStateType.GAMEPLAY;
-    private IFeatureManager featureManager = DependencyInjector.Resolve<IFeatureManager>();
+    private IDataManager dataManager;
 
     public override GameStateType GetNextState()
     {
@@ -20,17 +20,20 @@ public class GameplayState : GameState<GameStateType>
 
     public override void OnEnter()
     {
-        Debug.Log("[GAMEPLAY STATE] Entering gameplay state");
+        dataManager = DependencyInjector.Resolve<IDataManager>();
 
-        var definition = featureManager.GetDefinitionFromFeatureDefinition<WorldGenerationFeatureDefinition, ProvinceTypeDefinition, BiomeData>("TestBiome");
-        var instance = definition.CreateInstance<ProvinceTypeDefinition, BiomeInstance>();
-        var gridTest = instance.GenerateGrid();
-        
-
+        MainMenuManager.GlobalInstance.SetMainMenuActive(true);
+        MainMenuManager.GlobalInstance.OnClickQuitEvent += this.OnClickQuit;
     }
 
     public override void OnExit()
     {
-        
+        MainMenuManager.GlobalInstance.SetMainMenuActive(false);
+        MainMenuManager.GlobalInstance.OnClickQuitEvent -= this.OnClickQuit;
+    }
+
+    public void OnClickQuit(object sender, EventArgs args)
+    {
+        nextState = GameStateType.QUIT;
     }
 }
