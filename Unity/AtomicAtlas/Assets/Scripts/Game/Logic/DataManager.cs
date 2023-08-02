@@ -39,11 +39,6 @@ public class DataManager : IDataManager
         var filePaths = Directory.GetFiles(dataPath, "*.xml");
         var classType = typeof(T);
 
-        for (int i = 0; i < filePaths.Length; i++)
-        {
-            //filePaths[i] = filePaths[i].Replace("\\", "/");
-        }
-
         Assert.IsNotNull(classType, "Unable to find data: " + folderName);
 
         T result = default;

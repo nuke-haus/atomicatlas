@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProceduralNameData>
+
+  <!-- fantasy pseudo-english names inspired by the first law trilogy naming conventions -->
+  <!-- OLD EMPIRE -->
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_OLDEMPIRE_A</Segment>
+    <Segment>MID_OLDEMPIRE_A</Segment>
+    <Segment>END_OLDEMPIRE_A</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>STARTMID_OLDEMPIRE_A</Segment>
+    <Segment>END_OLDEMPIRE_A</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_OLDEMPIRE_B</Segment>
+    <Segment>MID_OLDEMPIRE_B</Segment>
+    <Segment>MID2_OLDEMPIRE_B</Segment>
+    <Segment>END_OLDEMPIRE_B</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_OLDEMPIRE_C</Segment>
+    <Segment>END_OLDEMPIRE_C</Segment>
+  </NamingFormat>
+
+  <!-- THE UNION -->
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_UNION_A</Segment>
+    <Segment>MID_UNION_A</Segment>
+    <Segment>END_UNION_A</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_UNION_B</Segment>
+    <Segment>MID_UNION_B</Segment>
+    <Segment>END_UNION_A</Segment>
+  </NamingFormat>
+
+  <!-- THE NORTH -->
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <BlockedProvinceType>SWAMP</BlockedProvinceType>
+    <BlockedProvinceType>WASTE</BlockedProvinceType>
+    <BlockedProvinceType>CAVE</BlockedProvinceType>
+    <BlockedProvinceType>FARM</BlockedProvinceType>
+    <Segment>START_NORTH_A</Segment>
+    <Segment>END_NORTH_A</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <BlockedProvinceType>SWAMP</BlockedProvinceType>
+    <BlockedProvinceType>WASTE</BlockedProvinceType>
+    <BlockedProvinceType>CAVE</BlockedProvinceType>
+    <BlockedProvinceType>FARM</BlockedProvinceType>
+    <Segment>START_NORTH_A</Segment>
+    <Segment>MID_OPTIONAL_NORTH_A</Segment>
+    <Segment>END_NORTH_A</Segment>
+  </NamingFormat>
+
+  <!-- STYRIA -->
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_STYRIA_A</Segment>
+    <Segment>END_STYRIA_A</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_STYRIA_B</Segment>
+    <Segment>END_STYRIA_B</Segment>
+  </NamingFormat>
+
+  <!-- GURKHUL -->
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <BlockedProvinceType>SWAMP</BlockedProvinceType>
+    <BlockedProvinceType>CAVE</BlockedProvinceType>
+    <BlockedProvinceType>FARM</BlockedProvinceType>
+    <BlockedProvinceType>HIGHLAND</BlockedProvinceType>
+    <BlockedProvinceType>FOREST</BlockedProvinceType>
+    <Segment>START_GURKHUL_OPTIONAL_AB</Segment>
+    <Segment>START_GURKHUL_A</Segment>
+    <Segment>END_GURKHUL_A</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <BlockedProvinceType>SWAMP</BlockedProvinceType>
+    <BlockedProvinceType>CAVE</BlockedProvinceType>
+    <BlockedProvinceType>FARM</BlockedProvinceType>
+    <BlockedProvinceType>HIGHLAND</BlockedProvinceType>
+    <BlockedProvinceType>FOREST</BlockedProvinceType>
+    <Segment>START_GURKHUL_OPTIONAL_AB</Segment>
+    <Segment>START_GURKHUL_B</Segment>
+    <Segment>END_GURKHUL_B</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <BlockedProvinceType>SWAMP</BlockedProvinceType>
+    <BlockedProvinceType>CAVE</BlockedProvinceType>
+    <BlockedProvinceType>FARM</BlockedProvinceType>
+    <BlockedProvinceType>HIGHLAND</BlockedProvinceType>
+    <BlockedProvinceType>FOREST</BlockedProvinceType>
+    <Segment>START_GURKHUL_C</Segment>
+    <Segment>END_GURKHUL_C</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <BlockedProvinceType>SWAMP</BlockedProvinceType>
+    <BlockedProvinceType>CAVE</BlockedProvinceType>
+    <BlockedProvinceType>FARM</BlockedProvinceType>
+    <BlockedProvinceType>HIGHLAND</BlockedProvinceType>
+    <BlockedProvinceType>FOREST</BlockedProvinceType>
+    <Segment>START_GURKHUL_D</Segment>
+    <Segment>END_GURKHUL_D</Segment>
+  </NamingFormat>
+ 
+</ProceduralNameData>

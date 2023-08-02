@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProceduralNameData>
+
+  <NamingFormat>
+    <Segment>THE</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>ADJECTIVE</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>NOUN</Segment>
+  </NamingFormat>
+
+  <NamingFormat>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>ADJECTIVE</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>NOUN</Segment>
+  </NamingFormat>
+
+  <NamingFormat>
+    <Segment>ADJECTIVE</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>ANIMAL</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>NOUN</Segment>
+  </NamingFormat>
+
+  <NamingFormat>
+    <Segment>NOUN</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>OF</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>CONCEPT</Segment>
+  </NamingFormat>
+
+  <NamingFormat>
+    <Segment>THE</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>NOUN</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>OF</Segment>
+    <Segment>SPACE</Segment>
+    <Segment>CONCEPT</Segment>
+  </NamingFormat>
+
+</ProceduralNameData>
