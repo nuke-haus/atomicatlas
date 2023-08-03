@@ -34,6 +34,14 @@
     <Segment>END_OLDEMPIRE_C</Segment>
   </NamingFormat>
 
+  <!-- STARIKLAND -->
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_STARIK_A</Segment>
+    <Segment>END_STARIK_A</Segment>
+  </NamingFormat>
+
   <!-- THE UNION -->
   <NamingFormat> 
     <BlockedProvinceType>SEA</BlockedProvinceType>
@@ -88,6 +96,13 @@
     <BlockedProvinceType>THRONE</BlockedProvinceType>
     <Segment>START_STYRIA_B</Segment>
     <Segment>END_STYRIA_B</Segment>
+  </NamingFormat>
+
+  <NamingFormat> 
+    <BlockedProvinceType>SEA</BlockedProvinceType>
+    <BlockedProvinceType>THRONE</BlockedProvinceType>
+    <Segment>START_STYRIA_C</Segment>
+    <Segment>END_STYRIA_C</Segment>
   </NamingFormat>
 
   <!-- GURKHUL -->

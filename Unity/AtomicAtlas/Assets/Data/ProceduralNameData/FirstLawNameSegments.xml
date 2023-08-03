@@ -95,6 +95,35 @@
     <String>dius</String>
   </NamingSegment>
 
+  <!-- STARIKLAND -->
+  <NamingSegment> 
+    <ID>START_STARIK_A</ID>
+
+    <String>rost</String>
+    <String>rondst</String>
+    <String>randst</String>
+    <String>anderst</String>
+    <String>averst</String>
+    <String>avonst</String>
+    <String>avonbr</String>
+    <String>dunbr</String>
+    <String>donbr</String>
+    <String>donst</String>
+    <String>valb</String>
+    <String>valbr</String>
+    <String>velbr</String>
+    <String>vanbr</String>
+    <String>vonbr</String>
+  </NamingSegment>
+
+  <NamingSegment> 
+    <ID>END_STARIK_A</ID>
+
+    <String>od</String>
+    <String>ock</String>
+    <String>eck</String>
+  </NamingSegment>
+
   <!-- THE UNION -->
   <NamingSegment> 
     <ID>START_UNION_A</ID>
@@ -201,6 +230,7 @@
     <String>ostr</String>
     <String>styr</String>
     <String>costr</String>
+    <String>mur</String>
     <String>misser</String>
     <String>vesser</String>
     <String>visser</String>
@@ -227,15 +257,22 @@
     <String>corr</String>
     <String>nic</String>
     <String>sic</String>
+    <String>sip</String>
+    <String>salv</String>
     <String>miss</String>
     <String>viss</String>
     <String>mess</String>
     <String>vess</String>
+    <String>etris</String>
+    <String>ospris</String>
+    <String>jadris</String>
+    <String>muris</String>
   </NamingSegment>
 
   <NamingSegment> 
     <ID>END_STYRIA_B</ID>
 
+    <String>anti</String>
     <String>ante</String>
     <String>anta</String>
     <String>antia</String>
@@ -243,6 +280,30 @@
     <String>elia</String>
     <String>enia</String>
     <String>inia</String>
+  </NamingSegment>
+
+  <NamingSegment> 
+    <ID>START_STYRIA_C</ID>
+
+    <String>caspr</String>
+    <String>capr</String>
+    <String>cost</String>
+    <String>coron</String>
+    <String>sipr</String>
+    <String>sis</String>
+    <String>vis</String>
+    <String>mur</String>
+    <String>jadr</String>
+  </NamingSegment>
+
+  <NamingSegment> 
+    <ID>END_STYRIA_C</ID>
+
+    <String>ille</String>
+    <String>inne</String>
+    <String>inia</String>
+    <String>elia</String>
+    <String>etta</String>
   </NamingSegment>
 
   <!-- GURKHUL -->
