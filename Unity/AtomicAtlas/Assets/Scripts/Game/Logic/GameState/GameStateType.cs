@@ -3,5 +3,6 @@ public enum GameStateType
 {
     BOOT,
     QUIT,
-    GAMEPLAY
+    GAMEPLAY,
+    REGENERATE
 }

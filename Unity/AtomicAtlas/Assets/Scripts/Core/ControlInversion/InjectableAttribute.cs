@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using UnityEngine;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class InjectableAttribute : Attribute

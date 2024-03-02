@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
@@ -11,11 +9,15 @@ public class MainMenuManager : MonoBehaviour
         private set;
     }
 
-    public event EventHandler OnClickStartEvent;
+    public event EventHandler OnClickRegenerateEvent;
+    public event EventHandler OnClickExportEvent;
     public event EventHandler OnClickQuitEvent;
 
     [SerializeField]
     private GameObject mainMenu;
+
+    [SerializeField]
+    private GameObject settingsMenu;
 
     void Start()
     {
@@ -32,13 +34,23 @@ public class MainMenuManager : MonoBehaviour
         mainMenu.SetActive(active);
     }
 
-    public void OnClickStart()
+    public void OnClickRegenerate()
     {
-        OnClickStartEvent?.Invoke(this, new EventArgs());
+        OnClickRegenerateEvent?.Invoke(this, new EventArgs());
     }
 
     public void OnClickQuit()
     {
         OnClickQuitEvent?.Invoke(this, new EventArgs());
+    }
+
+    public void OnClickSettings()
+    {
+        settingsMenu.SetActive(!settingsMenu.activeSelf);
+    }
+
+    public void OnClickExport()
+    {
+        OnClickExportEvent?.Invoke(this, new EventArgs());
     }
 }
