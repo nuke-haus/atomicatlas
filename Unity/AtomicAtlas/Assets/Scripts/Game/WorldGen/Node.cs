@@ -1,19 +1,26 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
+using UnityEngine;
 
 public class Node
 {
     public List<Connection> Connections => connections;
     public Vector2 NormalizedPosition => normalizedPosition;
+    public int GateNumber => gateNumber;
 
     private List<Connection> connections;
     private Vector2 normalizedPosition;
+    private int gateNumber = -1;
 
     public Node(Vector2 position)
     {
         normalizedPosition = position;
+    }
+
+    public void SetGateNumber(int gate)
+    {
+        gateNumber = gate;
     }
 
     public void SetNormalizedPosition(Vector2 position)

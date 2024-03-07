@@ -20,7 +20,7 @@ public class GameplayState : GameState<GameStateType>
         dataManager = DependencyInjector.Resolve<IDataManager>();
         exportManager = DependencyInjector.Resolve<IExportManager>();
 
-        MainMenuManager.GlobalInstance.SetMainMenuActive(true);
+        MainMenuManager.GlobalInstance.SetUIActive(true);
         MainMenuManager.GlobalInstance.OnClickQuitEvent += this.OnClickQuit;
         MainMenuManager.GlobalInstance.OnClickRegenerateEvent += this.OnClickRegenerate;
         MainMenuManager.GlobalInstance.OnClickExportEvent += this.OnClickExport;

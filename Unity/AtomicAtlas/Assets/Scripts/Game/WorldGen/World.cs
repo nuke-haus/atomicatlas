@@ -1,28 +1,24 @@
 
 using System.Collections.Generic;
-using System.Numerics;
+using UnityEngine;
 
-// The world should consist of a 1.0 x 1.0 grid with nodes distributed within. Nodes should be connected to reasonable neighbors.
+// The world consists of several planes, though typically just a main plane and a cave plane
 public class World
 {
-    public List<Node> Nodes => nodes;
-    public List<Connection> Connections => connections;
+    public List<WorldPlane> Planes => planes;
+    public Vector2 WorldSize => worldSize;
 
-    private List<Node> nodes;
-    private List<Connection> connections;
+    private List<WorldPlane> planes;
+    private Vector2 worldSize = new Vector2(2048, 1024);
 
-    public World()
+    public World(Vector2 size)
     {
-
+        worldSize = size;
+        planes = new List<WorldPlane>();
     }
 
-    public void CreateNode(Vector2 position)
+    public void AddPlane(WorldPlane plane)
     {
-        nodes.Add(new Node(position));
-    }
-
-    public void CreateConnection(Node node1, Node node2, bool isWrap)
-    {
-        connections.Add(node1.CreateConnection(node2, isWrap));
+        planes.Add(plane);
     }
 }
