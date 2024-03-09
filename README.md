@@ -1,8 +1,8 @@
-# ☢ AtomicAtlas: An open-source map generator for Dominions 6 ☢
+# ☢ Atomic Atlas ☢
 
 ## 🏛 ABOUT 🏛
 
-Atomic Atlas is a map generator for Dominions 6 that is designed to address the failings of the built-in map generator and MapNuke.
+Atomic Atlas is an open-source map generator for Dominions 6 that is designed to address the shortcomings of other map generators.
 
 ## 🤬 ISSUES WITH THE DOMINIONS 6 MAP GENERATOR 🤬
 
