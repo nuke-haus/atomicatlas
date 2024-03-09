@@ -5,14 +5,14 @@ using UnityEngine;
 public interface IStrategy
 {
     public bool IsStrategyDefinitionValid(StrategyDefinition strategyDefinition);
-    public World GenerateWorld(StrategyDefinition strategyDefinition, List<PlayerInfo> playerInfo);
+    public World GenerateWorld(StrategyDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo);
 }
 
 public interface IWorldGenerationManager
 {
     public void SetStrategy(IStrategy strategy);
     public void SetStrategyDefinition(StrategyDefinition strategyDefinition);
-    public void SetPlayerInfo(List<PlayerInfo> playerInfo);
+    public void SetPlayerInfo(IEnumerable<PlayerInfo> playerInfo);
     public World GenerateWorld();
 }
 
@@ -67,9 +67,9 @@ public class WorldGenerationManager : IWorldGenerationManager
         return strategy.GenerateWorld(strategyDefinition, playerInfo);
     }
 
-    public void SetPlayerInfo(List<PlayerInfo> players)
+    public void SetPlayerInfo(IEnumerable<PlayerInfo> players)
     {
-        playerInfo = players;
+        playerInfo = players.ToList();
     }
 
     public void SetWorldGenerationStrategy(IStrategy generationStrategy)

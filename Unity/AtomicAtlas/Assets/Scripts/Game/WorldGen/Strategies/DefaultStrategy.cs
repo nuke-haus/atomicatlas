@@ -29,14 +29,16 @@ public class DefaultStrategy: IStrategy
         return strategyDefinition is DefaultStrategyDefinition;
     }
 
-    public World GenerateWorld(StrategyDefinition definition, List<PlayerInfo> players)
+    public World GenerateWorld(StrategyDefinition definition, IEnumerable<PlayerInfo> players)
     {
         var strategyDefinition = (DefaultStrategyDefinition)definition;
         var world = new World(new Vector2(2048, 1024));
 
         var mainPlane = new WorldPlane("Default Plane", false);
 
-        mainPlane.CreateNode(Vector2.one);
+        var n1 = mainPlane.CreateNode(new Vector2(0.5f, 0.5f));
+        var n2 = mainPlane.CreateNode(new Vector2(0.6f, 0.6f));
+        mainPlane.CreateConnection(n1, n2, false);
 
         world.AddPlane(mainPlane);
 

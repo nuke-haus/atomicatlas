@@ -26,6 +26,9 @@ public abstract class StrategyDefinition
 
 public interface IDataManager
 {
+    public IEnumerable<IData> AllData { get; }
+    public IEnumerable<IStrategyData> AllStrategyData { get; }
+
     public T GetData<T>() where T : IData;
     public T GetStrategyData<T>() where T : IStrategyData;
 }
@@ -33,6 +36,9 @@ public interface IDataManager
 [Injectable(typeof(IDataManager))]
 public class DataManager : IDataManager
 {
+    public IEnumerable<IData> AllData => gameData;
+    public IEnumerable<IStrategyData> AllStrategyData => strategyData;
+
     private List<IData> gameData;
     private List<IStrategyData> strategyData;
 

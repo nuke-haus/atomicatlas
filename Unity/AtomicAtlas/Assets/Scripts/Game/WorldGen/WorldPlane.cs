@@ -21,7 +21,7 @@ public class WorldPlane
         isCave = cave;
     }
 
-    public void CreateNode(Vector2 position)
+    public Node CreateNode(Vector2 position)
     {
         if (position.x > 1.0f || position.x < 0f || position.y > 1.0f || position.y < 0f)
         {
@@ -29,8 +29,12 @@ public class WorldPlane
         }
         else
         {
-            nodes.Add(new Node(position));
+            var node = new Node(position);
+            nodes.Add(node);
+
+            return node;
         }
+        return null;
     }
 
     public void CreateConnection(Node node1, Node node2, bool isWrap)

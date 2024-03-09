@@ -1,7 +1,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public enum NodeGraphSortType
 {
@@ -17,6 +19,9 @@ public class InteractiveNodeGraph : MonoBehaviour
     [SerializeField]
     private GameObject interactiveConnectionPrefab;
 
+    [SerializeField]
+    private GameObject label;
+
     private List<InteractiveConnection> connections;
     private List<InteractiveNode> nodes;
 
@@ -26,6 +31,7 @@ public class InteractiveNodeGraph : MonoBehaviour
     {
         nodes = new List<InteractiveNode>();
         connections = new List<InteractiveConnection>();
+        RegenerateLabel(world, worldPlane, offset, sortType);
         RegenerateBorder(world, offset, sortType);
         RegenerateWorld(world, worldPlane);
 
@@ -37,6 +43,20 @@ public class InteractiveNodeGraph : MonoBehaviour
         RemoveConnections(connections.Count);
         RemoveNodes(nodes.Count);
         Destroy(gameObject);
+    }
+
+    private void RegenerateLabel(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
+    {
+        label.GetComponent<TextMeshPro>().text = worldPlane.Name;
+
+        var maxs = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)) + world.WorldSize.y, 0f);
+
+        if (sortType == NodeGraphSortType.Z_AXIS)
+        {
+            maxs = new Vector3(0f, world.WorldSize.y, (offset * PADDING));
+        }
+
+        label.transform.position = maxs;
     }
 
     private void RegenerateBorder(World world, int offset, NodeGraphSortType sortType)
