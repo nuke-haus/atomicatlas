@@ -6,7 +6,6 @@ public class GameplayState : GameState<GameStateType>
     public override GameStateType GameStateType => GameStateType.GAMEPLAY;
 
     private GameStateType nextState = GameStateType.GAMEPLAY;
-    private IDataManager dataManager;
     private IExportManager exportManager;
 
     public override GameStateType GetNextState()
@@ -17,7 +16,6 @@ public class GameplayState : GameState<GameStateType>
     public override void OnEnter()
     {
         nextState = GameStateType.GAMEPLAY;
-        dataManager = DependencyInjector.Resolve<IDataManager>();
         exportManager = DependencyInjector.Resolve<IExportManager>();
 
         MainMenuManager.GlobalInstance.SetUIActive(true);

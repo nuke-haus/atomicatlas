@@ -1,4 +1,5 @@
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class NodeGraphManager: MonoBehaviour
         private set;
     }
 
+    public bool IsGeneratingNodeGraph => isGeneratingNodeGraph;
+
     [SerializeField]
     private GameObject nodeGraphRoot;
 
@@ -18,6 +21,7 @@ public class NodeGraphManager: MonoBehaviour
 
     private List<InteractiveNodeGraph> nodeGraphs;
     private NodeGraphSortType sortType;
+    private bool isGeneratingNodeGraph;
 
     void Start()
     {
@@ -36,7 +40,14 @@ public class NodeGraphManager: MonoBehaviour
     }
 
     public void GenerateNodeGraphs(World world) 
-    { 
+    {
+        StartCoroutine(GenerateNodeGraphAsync(world));
+    }
+
+    private IEnumerator GenerateNodeGraphAsync(World world)
+    {
+        isGeneratingNodeGraph = true;
+
         while (world.Planes.Count < nodeGraphs.Count)
         {
             var nodeGraph = nodeGraphs[0];
@@ -57,5 +68,8 @@ public class NodeGraphManager: MonoBehaviour
 
             nodeGraph.Initialize(world, plane, i, sortType);
         }
+
+        isGeneratingNodeGraph = false;
+        yield return null;
     }
 }

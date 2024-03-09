@@ -5,6 +5,7 @@ public class RegenerateState : GameState<GameStateType>
     public override GameStateType GetNextState() => GameStateType.GAMEPLAY;
 
     private ISettingsManager settingsManager;
+    private IWorldGenerationManager worldGenerationManager;
     private bool isRegenComplete;
 
     public override bool CanExitState()
@@ -17,12 +18,25 @@ public class RegenerateState : GameState<GameStateType>
         isRegenComplete = false;
 
         settingsManager = DependencyInjector.Resolve<ISettingsManager>();
+        worldGenerationManager = DependencyInjector.Resolve<IWorldGenerationManager>();
 
-        var strategy = settingsManager.ActiveStrategy;
-        var definition = settingsManager.ActiveStrategyDefinition;
+        var world = worldGenerationManager.GenerateWorld(settingsManager.ActiveStrategy, settingsManager.ActiveStrategyDefinition, settingsManager.AllPlayerInfo);
 
-        settingsManager.ActiveStrategy.GenerateWorld(definition, settingsManager.AllPlayerInfo);
+        if (world != null)
+        {
+            NodeGraphManager.GlobalInstance.GenerateNodeGraphs(world);
+        }
+        else
+        {
+            isRegenComplete = true;
+        }
+    }
 
-        isRegenComplete = true;
+    public override void OnUpdate()
+    {
+        if (!NodeGraphManager.GlobalInstance.IsGeneratingNodeGraph)
+        {
+            isRegenComplete = true;
+        }
     }
 }

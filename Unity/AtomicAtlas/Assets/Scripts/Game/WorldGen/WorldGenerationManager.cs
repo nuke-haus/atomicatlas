@@ -10,35 +10,18 @@ public interface IStrategy
 
 public interface IWorldGenerationManager
 {
-    public void SetStrategy(IStrategy strategy);
-    public void SetStrategyDefinition(StrategyDefinition strategyDefinition);
-    public void SetPlayerInfo(IEnumerable<PlayerInfo> playerInfo);
-    public World GenerateWorld();
+    public World GenerateWorld(IStrategy strategy, StrategyDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo);
 }
 
 [Injectable(typeof(IWorldGenerationManager))]
 public class WorldGenerationManager : IWorldGenerationManager
 {
-    private IStrategy strategy;
-    private StrategyDefinition strategyDefinition;
-    private List<PlayerInfo> playerInfo;
-
     public WorldGenerationManager()
     {
        
     }
 
-    public void SetStrategy(IStrategy strat)
-    {
-        strategy = strat;
-    }
-
-    public void SetStrategyDefinition(StrategyDefinition strategyDef)
-    {
-        strategyDefinition = strategyDef;
-    }
-
-    public World GenerateWorld()
+    public World GenerateWorld(IStrategy strategy, StrategyDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo)
     {
         if (strategy == null)
         {
@@ -65,20 +48,5 @@ public class WorldGenerationManager : IWorldGenerationManager
         }
 
         return strategy.GenerateWorld(strategyDefinition, playerInfo);
-    }
-
-    public void SetPlayerInfo(IEnumerable<PlayerInfo> players)
-    {
-        playerInfo = players.ToList();
-    }
-
-    public void SetWorldGenerationStrategy(IStrategy generationStrategy)
-    {
-        strategy = generationStrategy;
-    }
-
-    public void SetStrategyConfiguration(StrategyDefinition strategyDef)
-    {
-        strategyDefinition = strategyDef;
     }
 }
