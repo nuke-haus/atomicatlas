@@ -54,7 +54,7 @@ With Atomic Atlas I want to lean more into a modular, extensible approach which 
 The plan is to give strategies full control over:
 
 * __Planes__: How many planes does the map have? How do they interconnect?
-* __Nodes__: How many nodes are on each plane? How are they positioned? How do they interconnect? 
+* __Nodes__: How many nodes are on each plane? How are they positioned?
 * __Terrain__: How is terrain distributed across the map? How many provinces have pre-built forts on them? How are the province shapes determined?
 * __Connections__: How do the nodes interconnect? What kind of connection types are used?
 * __Parameters__: What parameters for the strategy are exposed to the end user to tweak?
