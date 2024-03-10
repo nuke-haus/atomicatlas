@@ -38,24 +38,32 @@ Generating art also means spending time doing spriting and tweaking visual outpu
 
 ## 🔄 A NEW DESIGN 🔄
 
-### 🧱 MODULARITY 🧱
-
-With Atomic Atlas I want to lean more into a modular, extensible approach which allows the end user to have much more control over every aspect of the map generation process. This extensible approach will also ideally make it easy for people to code their own strategies and plug those into the map generator with ease.
-
-### 🙌 NO ART! 🙌
-
-Dominions 6 introduced a new map format: d6m. This allows the game to handle the rendering of map art, all the mapper has to do is output the province information in the d6m file.
-
-This new map format means I do not have to do any art assets and can focus more on the actual map generation logic and making robust, flexible tooling.
-
 ### 🧠 CONCEPTS 🧠
 
 Atomic Atlas has these fundamental concepts:
 
 * __World__: A world consists of several planes. Typically only 2 planes are generated, but I plan to support the maximum amount that Dominions 6 supports (9 total).
 * __World Plane__: One plane that exists in the world. A plane consists of a collection of nodes and connections.
-* __Strategy__: A strategy describes how the world is generated. It governs the number of nodes on each plane, how they are placed, and how they are connected. Each strategy can have any number of strategy definitions that govern its behaviour.
+* __Strategy__: A strategy describes how the world is generated. It governs the number of province nodes on each plane, how they are placed, their terrain data, and how they are connected. Each strategy can have any number of strategy definitions that govern its behaviour.
 * __Strategy Definition__: A strategy definition is a set of configurable parameters for a given strategy. These definitions are stored in XML and will be modifiable through the editor interface too. 
+
+### 🧱 MODULARITY 🧱
+
+With Atomic Atlas I want to lean more into a modular, extensible approach which allows the end user to have much more control over every aspect of the map generation process. This extensible approach will also ideally make it easy for people to code their own strategies and plug those into the map generator with ease.
+
+The plan is to give strategies full control over:
+
+* __Planes__: How many planes does the map have? How do they interconnect?
+* __Nodes__: How many nodes are on each plane? How are they positioned? How do they interconnect? 
+* __Terrain__: How is terrain distributed across the map? How many provinces have pre-built forts on them? How are the province shapes determined?
+* __Connections__: How do the nodes interconnect? What kind of connection types are used?
+* __Parameters__: What parameters for the strategy are exposed to the end user to tweak?
+
+### 🙌 NO ART! 🙌
+
+Dominions 6 introduced a new map format: d6m. This allows the game to handle the rendering of map art, all the mapper has to do is output the province information in the d6m file.
+
+This new map format means I do not have to do any art assets and can focus more on the actual map generation logic and making flexible tooling.
 
 ### 🎛 THE EDITOR 🎛
 
