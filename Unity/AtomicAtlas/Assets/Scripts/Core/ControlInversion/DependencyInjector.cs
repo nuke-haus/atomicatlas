@@ -24,6 +24,8 @@ public static class DependencyInjector
 
             dependencyDict.Add(injectionType, classType);
         }
+
+        isInitialized = true;
     }
 
     public static T Resolve<T>()
@@ -34,6 +36,8 @@ public static class DependencyInjector
         }
 
         Type type = typeof(T);
+        Assert.IsTrue(type.IsInterface, "Cannot resolve type: " + type.Name);
+
         object existingObject;
         resolvedObjectDict.TryGetValue(type, out existingObject);
 

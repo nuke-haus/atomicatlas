@@ -15,10 +15,11 @@ public interface IData
 
 public interface IStrategyData
 {
+    public IEnumerable<StrategyConfigDefinition> StrategyConfigDefinitions { get; }
     public void Merge(IStrategyData data);
 }
 
-public abstract class StrategyDefinition
+public abstract class StrategyConfigDefinition
 {
     [XmlElement]
     public string Name;

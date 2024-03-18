@@ -20,7 +20,7 @@ public class RegenerateState : GameState<GameStateType>
         settingsManager = DependencyInjector.Resolve<ISettingsManager>();
         worldGenerationManager = DependencyInjector.Resolve<IWorldGenerationManager>();
 
-        var world = worldGenerationManager.GenerateWorld(settingsManager.ActiveStrategy, settingsManager.ActiveStrategyDefinition, settingsManager.AllPlayerInfo);
+        var world = worldGenerationManager.GenerateWorld(settingsManager.Strategy, settingsManager.StrategyConfigDefinition, settingsManager.AllPlayerInfo);
 
         if (world != null)
         {

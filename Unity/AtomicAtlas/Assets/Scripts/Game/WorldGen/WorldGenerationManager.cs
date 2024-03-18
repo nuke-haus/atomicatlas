@@ -4,13 +4,13 @@ using UnityEngine;
 
 public interface IStrategy
 {
-    public bool IsStrategyDefinitionValid(StrategyDefinition strategyDefinition);
-    public World GenerateWorld(StrategyDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo);
+    public bool IsStrategyDefinitionValid(StrategyConfigDefinition strategyDefinition);
+    public World GenerateWorld(StrategyConfigDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo);
 }
 
 public interface IWorldGenerationManager
 {
-    public World GenerateWorld(IStrategy strategy, StrategyDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo);
+    public World GenerateWorld(IStrategy strategy, StrategyConfigDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo);
 }
 
 [Injectable(typeof(IWorldGenerationManager))]
@@ -21,7 +21,7 @@ public class WorldGenerationManager : IWorldGenerationManager
        
     }
 
-    public World GenerateWorld(IStrategy strategy, StrategyDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo)
+    public World GenerateWorld(IStrategy strategy, StrategyConfigDefinition strategyDefinition, IEnumerable<PlayerInfo> playerInfo)
     {
         if (strategy == null)
         {

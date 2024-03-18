@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultStrategyData>
+    <StrategyConfigDefinition>
+        <Name>TEST</Name>
+    </StrategyConfigDefinition>
+    <StrategyConfigDefinition>
+        <Name>TEST2</Name>
+    </StrategyConfigDefinition>
+</DefaultStrategyData>

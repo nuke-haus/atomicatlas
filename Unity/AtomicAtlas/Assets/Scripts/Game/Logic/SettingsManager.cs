@@ -7,45 +7,61 @@ using UnityEngine;
 
 public interface ISettingsManager
 {
-    public IStrategy ActiveStrategy { get; }
-    public StrategyDefinition ActiveStrategyDefinition { get; }
+    public IStrategy Strategy { get; }
+    public StrategyConfigDefinition StrategyConfigDefinition { get; }
     public IEnumerable<PlayerInfo> AllPlayerInfo { get; }
+    public bool IsDisciples { get; }
 
-    public void AddPlayerInfo(PlayerInfo playerInfo);
-    public void RemovePlayerInfo(PlayerInfo playerInfo);
+    public void SetDisciples(bool disciples);
+    public void UpdatePlayerCount(int count);
     public IEnumerable<Type> GetStrategyTypes();
     public void SetActiveStrategy(Type strategyType);
-    public void SetActiveStrategyDefinition(StrategyDefinition activeStrategyDefinition);
+    public void SetActiveStrategyConfigDefinition(StrategyConfigDefinition activeStrategyDefinition);
 }
 
 [Injectable(typeof(ISettingsManager))]
 public class SettingsManager : ISettingsManager
 {
-    public IStrategy ActiveStrategy => strategy;
-    public StrategyDefinition ActiveStrategyDefinition => strategyDefinition;
+    public IStrategy Strategy { get; private set; }
+    public StrategyConfigDefinition StrategyConfigDefinition { get; private set; }
+    public bool IsDisciples { get; private set; }
     public IEnumerable<PlayerInfo> AllPlayerInfo => allPlayerInfo;
 
     private IDataManager dataManager;
-    private IStrategy strategy;
     private Type strategyType;
-    private StrategyDefinition strategyDefinition;
     private List<PlayerInfo> allPlayerInfo;
 
     public SettingsManager()
     {
         dataManager = DependencyInjector.Resolve<IDataManager>();
         strategyType = typeof(DefaultStrategy);
-        strategy = (IStrategy)Activator.CreateInstance(strategyType);  
+        Strategy = (IStrategy)Activator.CreateInstance(strategyType);  
+        allPlayerInfo = new List<PlayerInfo>();
+        IsDisciples = false;
     }
 
-    public void AddPlayerInfo(PlayerInfo playerInfo)
+    public void UpdatePlayerCount(int newCount)
     {
-        allPlayerInfo.Add(playerInfo);
+        var nationData = dataManager.GetData<NationData>();
+        if (newCount > allPlayerInfo.Count)
+        {
+            while (allPlayerInfo.Count < newCount)
+            {
+                allPlayerInfo.Add(new PlayerInfo(0, nationData.Nations[0]));
+            }
+        }
+        else if (newCount < allPlayerInfo.Count)
+        {
+            while (allPlayerInfo.Count > newCount)
+            {
+                allPlayerInfo.RemoveAt(allPlayerInfo.Count - 1);
+            }
+        }
     }
 
-    public void RemovePlayerInfo(PlayerInfo playerInfo)
+    public void SetDisciples(bool isDisciples)
     {
-        allPlayerInfo.Remove(playerInfo);
+        IsDisciples = isDisciples;
     }
 
     public void SetActiveStrategy(Type type)
@@ -56,7 +72,7 @@ public class SettingsManager : ISettingsManager
         }
 
         strategyType = type;
-        strategy = (IStrategy)Activator.CreateInstance(type);
+        Strategy = (IStrategy)Activator.CreateInstance(type);
     }
 
     public IEnumerable<Type> GetStrategyTypes()
@@ -66,12 +82,12 @@ public class SettingsManager : ISettingsManager
 
     public Dictionary<string, object> GetStrategyDefinitionFields()
     {
-        var type = strategyDefinition.GetType();
+        var type = StrategyConfigDefinition.GetType();
         var result = new Dictionary<string, object>();
 
         foreach (var field in type.GetFields().Where(f => f.IsPublic))
         {
-            result.Add(field.Name, field.GetValue(strategyDefinition));
+            result.Add(field.Name, field.GetValue(StrategyConfigDefinition));
         }
 
         return result;
@@ -79,11 +95,11 @@ public class SettingsManager : ISettingsManager
 
     public void SetActiveStrategy(IStrategy activeStrategy)
     {
-        strategy = activeStrategy;
+        Strategy = activeStrategy;
     }
 
-    public void SetActiveStrategyDefinition(StrategyDefinition definition)
+    public void SetActiveStrategyConfigDefinition(StrategyConfigDefinition definition)
     {
-        strategyDefinition = definition;
+        StrategyConfigDefinition = definition;
     }
 }
