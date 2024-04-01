@@ -12,8 +12,8 @@ public class WorldPlane
 
     private bool isCave;
     private string name;
-    private List<Node> nodes;
-    private List<Connection> connections;
+    private List<Node> nodes = new();
+    private List<Connection> connections = new();
 
     public WorldPlane(string planeName, bool cave)
     {

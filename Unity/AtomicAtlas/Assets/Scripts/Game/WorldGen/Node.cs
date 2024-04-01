@@ -9,7 +9,7 @@ public class Node
     public Vector2 NormalizedPosition => normalizedPosition;
     public int GateNumber => gateNumber;
 
-    private List<Connection> connections;
+    private List<Connection> connections = new();
     private Vector2 normalizedPosition;
     private int gateNumber = -1;
 

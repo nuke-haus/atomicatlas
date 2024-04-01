@@ -19,14 +19,13 @@ public class NodeGraphManager: MonoBehaviour
     [SerializeField]
     private GameObject nodeGraphPrefab;
 
-    private List<InteractiveNodeGraph> nodeGraphs;
+    private List<InteractiveNodeGraph> nodeGraphs = new();
     private NodeGraphSortType sortType;
     private bool isGeneratingNodeGraph;
 
     void Start()
     {
         GlobalInstance = this;
-        nodeGraphs = new List<InteractiveNodeGraph>();
     }
 
     void Update()
@@ -58,15 +57,19 @@ public class NodeGraphManager: MonoBehaviour
         for (int i = 0; i < world.Planes.Count; i++)
         {
             var plane = world.Planes[i];
-            var nodeGraph = nodeGraphs[i];
+            InteractiveNodeGraph nodeGraph = null;
 
-            if (nodeGraph == null)
+            if (nodeGraphs.Count < world.Planes.Count)
             {
                 nodeGraph = Instantiate(nodeGraphPrefab, nodeGraphRoot.transform).GetComponent<InteractiveNodeGraph>();
                 nodeGraphs.Add(nodeGraph);
             }
+            else
+            {
+                nodeGraph = nodeGraphs[i];
+            }
 
-            nodeGraph.Initialize(world, plane, i, sortType);
+            nodeGraph.Initialize(world, plane, -i, sortType);
         }
 
         isGeneratingNodeGraph = false;

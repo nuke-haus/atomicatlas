@@ -1,6 +1,13 @@
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+
+public enum CameraMode
+{
+    PLANE,
+    FULL_3D
+}
 
 public class CameraManager: MonoBehaviour
 {
@@ -11,23 +18,23 @@ public class CameraManager: MonoBehaviour
     }
 
     [SerializeField]
-    private float maxSize;
+    private float maxCameraZ;
 
     [SerializeField]
-    public float minSize;
+    public float minCameraZ;
 
     [SerializeField]
     private EventSystem eventSystem;
 
-    private float targetSize = 5.0f;
+    private float targetCameraZ = -1000.0f;
     private Camera mainCamera;
-    private Vector2 lastPos;
-    private bool isDragging;
-    private Vector2 dragWorldPos;
-    private Vector2 prevCameraPos;
+    private Vector3 lastDragWorldPos;
+    private Vector3 lastCameraPos;
+    private bool isDragging = false;
+    private CameraMode cameraMode = CameraMode.PLANE;
 
-    private const float INTERPOLATE_CAM = 0.48f;
-    private const float SENSITIVITY = 0.20f;
+    private const float INTERPOLATE_CAM_Z = 0.45f;
+    private const float ZOOM_SENSITIVITY = 1.75f;
     private const float SIZE_DELTA = 0.001f;
 
     void Start()
@@ -35,75 +42,94 @@ public class CameraManager: MonoBehaviour
         GlobalInstance = this;
 
         mainCamera = Camera.main;
-        lastPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        lastCameraPos = mainCamera.transform.position;
     }
 
     void Update()
     {
-        if (Mathf.Abs(mainCamera.orthographicSize - targetSize) < SIZE_DELTA)
+        //if (Mathf.Abs(mainCamera.orthographicSize - targetSize) < SIZE_DELTA)
+        //{
+        //    return;
+        //}
+
+        if (Mathf.Abs(mainCamera.transform.position.z - targetCameraZ) < SIZE_DELTA)
         {
             return;
         }
 
-        var size = mainCamera.orthographicSize;
-        mainCamera.orthographicSize = Mathf.SmoothStep(mainCamera.orthographicSize, targetSize, INTERPOLATE_CAM);
+        var cameraZ = Mathf.SmoothStep(mainCamera.transform.position.z, targetCameraZ, INTERPOLATE_CAM_Z);
+        mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, cameraZ);
+        //mainCamera.orthographicSize = Mathf.SmoothStep(mainCamera.orthographicSize, targetSize, INTERPOLATE_CAM);
     }
 
     public void OnGUI()
     {
-        if (Event.current.type == EventType.ScrollWheel)
+        if (cameraMode == CameraMode.PLANE)
         {
-            if (!eventSystem.IsPointerOverGameObject())
+            if (Event.current.type == EventType.ScrollWheel)
             {
-                MouseScroll(Event.current.delta.y);
+                if (!eventSystem.IsPointerOverGameObject())
+                {
+                    MouseScroll(Event.current.delta.y);
+                }
+            }
+
+            if (Event.current.type == EventType.MouseDrag)
+            {
+                if (!eventSystem.IsPointerOverGameObject())
+                {
+                    Vector3 mousePos = Event.current.mousePosition;
+                    mousePos.y = mainCamera.pixelHeight - mousePos.y;
+                    mousePos.z = Mathf.Abs(mainCamera.transform.position.z);
+
+                    MouseDrag(mousePos);
+                }
+            }
+
+            if (Event.current.type == EventType.MouseUp)
+            {
+                isDragging = false;
             }
         }
-
-        if (Event.current.type == EventType.MouseDown)
+        else
         {
-            // Don't drag if we are over a UI element like a button.
-            isDragging = !eventSystem.IsPointerOverGameObject();
-            dragWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            prevCameraPos = mainCamera.transform.position;
-        }
-
-        if (Event.current.type == EventType.MouseDrag)
-        {
-            if (isDragging) MouseDrag();
+            // 3d controls
         }
     }
 
-    private void MouseDrag()
+    private void MouseDrag(Vector3 mousePos)
     {
-        lastPos = Camera.main.transform.position;
-
-        if (prevCameraPos != lastPos)
+        if (!isDragging)
         {
-            dragWorldPos += (lastPos - prevCameraPos);
+            isDragging = true;
+            lastDragWorldPos = mainCamera.ScreenToWorldPoint(mousePos);
         }
 
-        Vector2 next_pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        var delta = dragWorldPos - next_pos;
-        var pos = mainCamera.transform.position;
-        var newpos = pos + new Vector3(delta.x, delta.y, 0);
+        if (lastCameraPos != mainCamera.transform.position)
+        {
+            lastDragWorldPos += mainCamera.transform.position - lastCameraPos;
+        }
 
-        mainCamera.transform.position = newpos;
-        prevCameraPos = mainCamera.transform.position;
+        var nextPos = mainCamera.ScreenToWorldPoint(mousePos);
+        var delta = lastDragWorldPos - nextPos;
+        var newPos = mainCamera.transform.position + new Vector3(delta.x, delta.y, 0);
+
+        mainCamera.transform.position = newPos;
+        lastCameraPos = newPos;
     }
 
     private void MouseScroll(float delta)
     {
-        targetSize = targetSize + delta * SENSITIVITY;
-        lastPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        targetCameraZ = targetCameraZ - delta * ZOOM_SENSITIVITY;
 
-        if (targetSize > maxSize)
+        if (targetCameraZ > maxCameraZ)
         {
-            targetSize = maxSize;
+            targetCameraZ = maxCameraZ;
         }
 
-        if (targetSize < minSize)
+        if (targetCameraZ < minCameraZ)
         {
-            targetSize = minSize;
+            targetCameraZ = minCameraZ;
         }
     }
 }

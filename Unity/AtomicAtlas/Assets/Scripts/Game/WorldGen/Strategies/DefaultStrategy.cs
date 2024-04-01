@@ -36,13 +36,19 @@ public class DefaultStrategy: IStrategy
         var strategyDefinition = (DefaultStrategyConfigDefinition)definition;
         var world = new World(new Vector2(2048, 1024));
 
-        var mainPlane = new WorldPlane("Default Plane", false);
+        var mainPlane = new WorldPlane("MAIN PLANE", false);
+        var cavePlane = new WorldPlane("CAVE PLANE", true);
 
         var n1 = mainPlane.CreateNode(new Vector2(0.5f, 0.5f));
         var n2 = mainPlane.CreateNode(new Vector2(0.6f, 0.6f));
         mainPlane.CreateConnection(n1, n2, false);
 
+        var cn1 = cavePlane.CreateNode(new Vector2(0.7f, 0.7f));
+        var cn2 = cavePlane.CreateNode(new Vector2(0.7f, 0.8f));
+        cavePlane.CreateConnection(cn1, cn2, false);
+
         world.AddPlane(mainPlane);
+        world.AddPlane(cavePlane);
 
         return world;
     }

@@ -24,6 +24,7 @@ public class PlayerInfoEntry : MonoBehaviour
         }
 
         nationDropdown.options = options;
+        nationDropdown.value = 0;
     }
 
     void Update()
@@ -54,11 +55,30 @@ public class PlayerInfoEntry : MonoBehaviour
     public void SetPlayerInfo(PlayerInfo playerInfo)
     {
         PlayerInfo = playerInfo;
-        nationDropdown.value = 5;
+        nationDropdown.value = GetNationIndex(playerInfo);
 
         if (playerInfo.Team > 0)
         {
             teamDropdown.value = playerInfo.Team - 1;
         }
+    }
+
+    private int GetNationIndex(PlayerInfo playerInfo)
+    {
+        var dataManager = DependencyInjector.Resolve<IDataManager>();
+        int index = 0;
+
+        foreach (var nation in dataManager.GetData<NationData>().Nations)
+        {
+            if (nation != playerInfo.NationDefinition)
+            {
+                index++;
+            }
+            else
+            {
+                return index;
+            }
+        }
+        return index;
     }
 }

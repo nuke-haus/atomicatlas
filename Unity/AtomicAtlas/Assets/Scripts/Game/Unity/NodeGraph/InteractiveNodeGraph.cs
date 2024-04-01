@@ -25,17 +25,23 @@ public class InteractiveNodeGraph : MonoBehaviour
     private List<InteractiveConnection> connections;
     private List<InteractiveNode> nodes;
 
-    private const float PADDING = 10f;
+    private const float PADDING = 200f;
 
     public void Initialize(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
     {
         nodes = new List<InteractiveNode>();
         connections = new List<InteractiveConnection>();
+
         RegenerateLabel(world, worldPlane, offset, sortType);
         RegenerateBorder(world, offset, sortType);
-        RegenerateWorld(world, worldPlane);
+        RegenerateWorld(world, worldPlane, offset, sortType);
 
         transform.position = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)), 0f);
+
+        if (sortType == NodeGraphSortType.Z_AXIS)
+        {
+            transform.position = new Vector3(0f, 0f, (offset * PADDING));
+        }
     }
 
     public void Destroy()
@@ -47,9 +53,9 @@ public class InteractiveNodeGraph : MonoBehaviour
 
     private void RegenerateLabel(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
     {
-        label.GetComponent<TextMeshPro>().text = worldPlane.Name;
+        label.GetComponent<TextMeshPro>().text = worldPlane.Name.ToUpper();
 
-        var maxs = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)) + world.WorldSize.y, 0f);
+        var maxs = new Vector3(0f, world.WorldSize.y, 0f);
 
         if (sortType == NodeGraphSortType.Z_AXIS)
         {
@@ -81,7 +87,7 @@ public class InteractiveNodeGraph : MonoBehaviour
         GetComponent<LineRenderer>().SetPositions(pts.ToArray());
     }
 
-    private void RegenerateWorld(World world, WorldPlane worldPlane)
+    private void RegenerateWorld(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
     {
         ResizePools(worldPlane.Nodes.Count, worldPlane.Connections.Count);
 

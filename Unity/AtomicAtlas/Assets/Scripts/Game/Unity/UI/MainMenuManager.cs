@@ -113,7 +113,7 @@ public class MainMenuManager : MonoBehaviour
         settingsManager.SetActiveStrategy(types.First());
         OnStrategyChanged();
 
-        playerCountDropdown.value = 7;
+        playerCountDropdown.value = 7; // 9 player option is default
     }
 
     public void OnClickDisciplesToggle()

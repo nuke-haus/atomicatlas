@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 3}
+  m_AnchoredPosition: {x: 2, y: 0}
+  m_SizeDelta: {x: 500, y: 14}
   m_Pivot: {x: 0, y: 0}
 --- !u!23 &2653419309053866425
 MeshRenderer:
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 140
+  m_fontSizeBase: 140
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactiveNodePrefab: {fileID: 5228857711778178410, guid: 628abf0ded599214084a3e932e9740f0, type: 3}
   interactiveConnectionPrefab: {fileID: 2400871731811910246, guid: b59257eebf01d114dabb17ab2900058c, type: 3}
+  label: {fileID: 2002723045881107632}
 --- !u!120 &3365238805740237186
 LineRenderer:
   serializedVersion: 2
@@ -263,12 +264,12 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 0, z: 1}
+  - {x: 0, y: 100, z: 1}
+  - {x: 100, y: 100, z: 1}
+  - {x: 100, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.9
     widthCurve:
       serializedVersion: 2
       m_Curve:
