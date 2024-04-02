@@ -4785,6 +4785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeGraphRoot: {fileID: 1383040288}
   nodeGraphPrefab: {fileID: 2824999362657575914, guid: 3971bd520aa7eb44281d364b09310c5c, type: 3}
+  eventSystem: {fileID: 1438302103}
 --- !u!4 &1215543474
 Transform:
   m_ObjectHideFlags: 0

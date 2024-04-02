@@ -39,8 +39,8 @@ public class DefaultStrategy: IStrategy
         var mainPlane = new WorldPlane("MAIN PLANE", false);
         var cavePlane = new WorldPlane("CAVE PLANE", true);
 
-        var n1 = mainPlane.CreateNode(new Vector2(0.5f, 0.5f));
-        var n2 = mainPlane.CreateNode(new Vector2(0.6f, 0.6f));
+        var n1 = mainPlane.CreateNode(new Vector2(0.1f, 0.2f));
+        var n2 = mainPlane.CreateNode(new Vector2(0.2f, 0.3f));
         mainPlane.CreateConnection(n1, n2, false);
 
         var cn1 = cavePlane.CreateNode(new Vector2(0.7f, 0.7f));

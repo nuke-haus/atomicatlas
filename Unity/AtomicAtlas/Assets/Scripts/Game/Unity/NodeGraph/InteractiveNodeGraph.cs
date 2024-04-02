@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public enum NodeGraphSortType
 {
@@ -32,16 +31,16 @@ public class InteractiveNodeGraph : MonoBehaviour
         nodes = new List<InteractiveNode>();
         connections = new List<InteractiveConnection>();
 
-        RegenerateLabel(world, worldPlane, offset, sortType);
-        RegenerateBorder(world, offset, sortType);
-        RegenerateWorld(world, worldPlane, offset, sortType);
-
         transform.position = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)), 0f);
 
         if (sortType == NodeGraphSortType.Z_AXIS)
         {
             transform.position = new Vector3(0f, 0f, (offset * PADDING));
         }
+
+        RegenerateLabel(world, worldPlane, offset, sortType);
+        RegenerateBorder(world, offset, sortType);
+        RegenerateWorld(world, worldPlane, offset, sortType);
     }
 
     public void Destroy()
@@ -62,7 +61,7 @@ public class InteractiveNodeGraph : MonoBehaviour
             maxs = new Vector3(0f, world.WorldSize.y, (offset * PADDING));
         }
 
-        label.transform.position = maxs;
+        label.transform.localPosition = maxs;
     }
 
     private void RegenerateBorder(World world, int offset, NodeGraphSortType sortType)

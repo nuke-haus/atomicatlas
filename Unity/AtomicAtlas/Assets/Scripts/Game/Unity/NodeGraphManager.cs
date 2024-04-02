@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.HID;
 
 public class NodeGraphManager: MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class NodeGraphManager: MonoBehaviour
     [SerializeField]
     private GameObject nodeGraphPrefab;
 
+    [SerializeField]
+    private EventSystem eventSystem;
+
     private List<InteractiveNodeGraph> nodeGraphs = new();
     private NodeGraphSortType sortType;
     private bool isGeneratingNodeGraph;
@@ -30,12 +35,52 @@ public class NodeGraphManager: MonoBehaviour
 
     void Update()
     {
-       
+        if (Input.GetMouseButtonDown(1)) // Right click
+        {
+            if (!eventSystem.IsPointerOverGameObject())
+            {
+                Vector3 mousePos = Input.mousePosition;
+                mousePos.z = 5f;
+
+                var gameObject = RayTrace(mousePos);
+
+                if (gameObject != null)
+                {
+                    var interactiveNode = gameObject.GetComponentInParent<InteractiveNode>();
+                    var interactiveConnection = gameObject.GetComponentInParent<InteractiveConnection>();
+
+                    if (interactiveNode != null)
+                    {
+                        Debug.Log("We selected a node");
+                    }
+                    else if (interactiveConnection != null)
+                    {
+                        Debug.Log("We selected a cnode");
+                    }
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        
+    }
+
+    private GameObject RayTrace(Vector3 mousePos)
+    {
+        var cameraPos = Camera.main.transform.position;
+        var cameraForwardPos = Camera.main.ScreenToWorldPoint(mousePos);
+        var rayDirection = cameraForwardPos - cameraPos;
+        RaycastHit hit;
+
+        bool isHit = Physics.Raycast(cameraPos, rayDirection, out hit, Mathf.Infinity);
+
+        if (isHit)
+        {
+            return hit.collider.gameObject;
+        }
+
+        return null;
     }
 
     public void GenerateNodeGraphs(World world) 

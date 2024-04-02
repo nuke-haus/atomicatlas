@@ -34,7 +34,7 @@ public class CameraManager: MonoBehaviour
     private CameraMode cameraMode = CameraMode.PLANE;
 
     private const float INTERPOLATE_CAM_Z = 0.45f;
-    private const float ZOOM_SENSITIVITY = 1.75f;
+    private const float ZOOM_SENSITIVITY = 2.25f;
     private const float SIZE_DELTA = 0.001f;
 
     void Start()
