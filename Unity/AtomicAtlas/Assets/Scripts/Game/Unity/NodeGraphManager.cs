@@ -51,15 +51,25 @@ public class NodeGraphManager: MonoBehaviour
 
                     if (interactiveNode != null)
                     {
-                        Debug.Log("We selected a node");
+                        SetActiveNode(interactiveNode);
                     }
                     else if (interactiveConnection != null)
                     {
-                        Debug.Log("We selected a cnode");
+                        SetActiveConnection(interactiveConnection);
                     }
                 }
             }
         }
+    }
+
+    private void SetActiveConnection(InteractiveConnection connection)
+    {
+        EditorMenuManager.GlobalInstance.SetConnectionEditorPanelActive(connection);
+    }
+
+    private void SetActiveNode(InteractiveNode node)
+    {
+        EditorMenuManager.GlobalInstance.SetNodeEditorPanelActive(node);
     }
 
     private void FixedUpdate()
