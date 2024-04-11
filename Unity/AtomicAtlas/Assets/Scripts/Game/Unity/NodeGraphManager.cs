@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.HID;
 
 public class NodeGraphManager: MonoBehaviour
 {
@@ -51,7 +50,14 @@ public class NodeGraphManager: MonoBehaviour
 
                     if (interactiveNode != null)
                     {
-                        SetActiveNode(interactiveNode);
+                        if (interactiveNode.IsCave)
+                        {
+                            SetActiveCaveNode(interactiveNode);
+                        }
+                        else
+                        {
+                            SetActiveNode(interactiveNode);
+                        }
                     }
                     else if (interactiveConnection != null)
                     {
@@ -69,7 +75,12 @@ public class NodeGraphManager: MonoBehaviour
 
     private void SetActiveNode(InteractiveNode node)
     {
-        EditorMenuManager.GlobalInstance.SetNodeEditorPanelActive(node);
+        EditorMenuManager.GlobalInstance.SetProvinceEditorPanelActive(node);
+    }
+
+    private void SetActiveCaveNode(InteractiveNode node)
+    {
+        EditorMenuManager.GlobalInstance.SetCaveEditorPanelActive(node);
     }
 
     private void FixedUpdate()

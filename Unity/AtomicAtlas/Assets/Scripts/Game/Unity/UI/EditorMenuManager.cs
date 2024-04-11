@@ -1,11 +1,4 @@
-using System;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using TMPro;
-using UnityEngine.UI;
-
 
 public class EditorMenuManager : MonoBehaviour
 {
@@ -16,13 +9,13 @@ public class EditorMenuManager : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject editNodePanel;
+    private ProvinceEditor provinceEditor;
 
     [SerializeField]
-    private GameObject editConnectionPanel;
+    private CaveEditor caveEditor;
 
-    private InteractiveNode selectedNode;
-    private InteractiveConnection selectedConnection;
+    [SerializeField]
+    private ConnectionEditor connectionEditor;
 
     void Start()
     {
@@ -34,15 +27,30 @@ public class EditorMenuManager : MonoBehaviour
         
     }
 
-    public void SetNodeEditorPanelActive(InteractiveNode node)
+    public void SetProvinceEditorPanelActive(InteractiveNode node)
     {
-        editNodePanel.SetActive(true);
-        selectedNode = node;
+        provinceEditor.gameObject.SetActive(true);
+        caveEditor.gameObject.SetActive(false);
+        connectionEditor.gameObject.SetActive(false);
+
+        provinceEditor.Activate(node);
+    }
+
+    public void SetCaveEditorPanelActive(InteractiveNode node)
+    {
+        provinceEditor.gameObject.SetActive(false);
+        caveEditor.gameObject.SetActive(true);
+        connectionEditor.gameObject.SetActive(false);
+
+        caveEditor.Activate(node);
     }
 
     public void SetConnectionEditorPanelActive(InteractiveConnection connection)
     {
-        editNodePanel.SetActive(true);
-        selectedConnection = connection;
+        provinceEditor.gameObject.SetActive(false);
+        caveEditor.gameObject.SetActive(false);
+        connectionEditor.gameObject.SetActive(true);
+
+        connectionEditor.Activate(connection);
     }
 }

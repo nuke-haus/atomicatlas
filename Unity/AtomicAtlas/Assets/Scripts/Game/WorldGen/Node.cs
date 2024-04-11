@@ -5,27 +5,46 @@ using UnityEngine;
 
 public class Node
 {
-    public List<Connection> Connections => connections;
-    public Vector2 NormalizedPosition => normalizedPosition;
-    public int GateNumber => gateNumber;
+    public IEnumerable<Connection> Connections => connections;
+    public Vector2 NormalizedPosition { get; private set; }
+    public int GateNumber { get; private set; }
+    public Terrain Terrain { get; private set; }
+    public Fort Fort { get; private set; }
+    public string NameOverride { get; private set; }
 
     private List<Connection> connections = new();
-    private Vector2 normalizedPosition;
-    private int gateNumber = -1;
 
-    public Node(Vector2 position)
+    public Node(Vector2 position, Terrain terrain)
     {
-        normalizedPosition = position;
+        NormalizedPosition = position;
+        Terrain = terrain;
+    }
+
+    public void SetHasFort(bool hasFort)
+    {
+        Fort = hasFort
+            ? FortHelper.GetFort(this)
+            : Fort.NONE;
+    }
+
+    public void SetTerrain(Terrain terrain)
+    {
+        Terrain = terrain;
     }
 
     public void SetGateNumber(int gate)
     {
-        gateNumber = gate;
+        GateNumber = gate;
+    }
+
+    public void SetNameOverride(string nameOverride)
+    {
+        NameOverride = nameOverride;
     }
 
     public void SetNormalizedPosition(Vector2 position)
     {
-        normalizedPosition = position; 
+        NormalizedPosition = position; 
     }
 
     public bool HasConnection(Connection connection)

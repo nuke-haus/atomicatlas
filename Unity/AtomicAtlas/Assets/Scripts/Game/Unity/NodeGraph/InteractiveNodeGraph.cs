@@ -92,6 +92,7 @@ public class InteractiveNodeGraph : MonoBehaviour
 
         for (int i = 0; i < worldPlane.Nodes.Count; i++)
         {
+            nodes[i].SetIsCaveNode(worldPlane.IsCave);
             nodes[i].SetNode(worldPlane.Nodes[i]);
             nodes[i].ResetInteractiveConnections();
             nodes[i].UpdateNodePosition(world);

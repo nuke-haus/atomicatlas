@@ -29,7 +29,7 @@ public class WorldPlane
         }
         else
         {
-            var node = new Node(position);
+            var node = new Node(position, Terrain.PLAINS);
             nodes.Add(node);
 
             return node;

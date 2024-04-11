@@ -1,13 +1,13 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractiveNode: MonoBehaviour
 {
     public List<InteractiveConnection> Connections => connections;
-    public Node Node => node;
+    public Node Node { get; private set; }
+    public bool IsCave {  get; private set; }
 
-    private Node node;
     private List<InteractiveConnection> connections;
 
     void Start()
@@ -45,8 +45,13 @@ public class InteractiveNode: MonoBehaviour
         connections.Remove(connection);
     }
 
+    public void SetIsCaveNode(bool isCave)
+    {
+        IsCave = isCave;
+    }
+
     public void SetNode(Node n)
     {
-        node = n;
+        Node = n;
     }
 }

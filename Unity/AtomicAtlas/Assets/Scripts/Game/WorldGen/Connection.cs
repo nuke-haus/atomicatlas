@@ -6,6 +6,7 @@ public class Connection
     public Node Node1 => node1;
     public Node Node2 => node2;
     public Vector2 ConnectionCenter => connectionCenter;
+    public ConnectionType ConnectionType { get; private set; }
 
     private Vector2 connectionCenter;
     private Node node1;
@@ -18,5 +19,10 @@ public class Connection
         node2 = nodeB;
         connectionCenter = new Vector2((node1.NormalizedPosition.x + node2.NormalizedPosition.x) / 2f, (node1.NormalizedPosition.y + node2.NormalizedPosition.y) / 2f);
         isWrapping = wrap;
+    }
+
+    public void SetConnectionType(ConnectionType connectionType)
+    {
+        ConnectionType = connectionType;
     }
 }
