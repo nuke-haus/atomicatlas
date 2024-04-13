@@ -1,6 +1,6 @@
 {
-	"name": "Atlas.WorldGenStrategies",
-    "rootNamespace": "Atlas.WorldGenStrategies",
+	"name": "Atlas.WorldGen.Strategies",
+    "rootNamespace": "Atlas.WorldGen.Strategies",
     "references": [
         "Atlas.Core",
         "Atlas.Game",

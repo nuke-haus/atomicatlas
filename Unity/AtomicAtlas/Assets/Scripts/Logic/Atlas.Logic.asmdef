@@ -5,7 +5,7 @@
         "Atlas.Core",
         "Atlas.Data",
         "Atlas.WorldGen",
-        "Atlas.WorldGenStrategies",
+        "Atlas.WorldGen.Strategies",
         "Atlas.Interactive",
         "Unity.TextMeshPro"
     ],

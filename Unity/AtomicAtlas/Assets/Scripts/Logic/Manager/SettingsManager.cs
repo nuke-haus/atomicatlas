@@ -1,12 +1,10 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using Atlas.Data;
 using Atlas.WorldGen;
-using Atlas.WorldGenStrategies;
+using Atlas.WorldGen.Strategies;
 using Atlas.Core;
 
 namespace Atlas.Logic

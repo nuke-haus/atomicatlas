@@ -108,7 +108,7 @@ namespace Atlas.Logic
             foreach (var strategyType in types)
             {
                 var attribute = (StrategyAttribute)Attribute.GetCustomAttribute(strategyType, typeof(StrategyAttribute));
-                var option = new TMP_Dropdown.OptionData(attribute.DisplayName);
+                var option = new TMP_Dropdown.OptionData(attribute.DisplayName.ToUpper());
                 strategyList.Add(option);
             }
 
@@ -179,7 +179,7 @@ namespace Atlas.Logic
             else
             {
                 settingsManager.SetActiveStrategyConfigDefinition(data.StrategyConfigDefinitions.First());
-                var options = data.StrategyConfigDefinitions.Select(config => new TMP_Dropdown.OptionData(config.Name)).ToList();
+                var options = data.StrategyConfigDefinitions.Select(config => new TMP_Dropdown.OptionData(config.Name.ToUpper())).ToList();
                 strategyConfigDropdown.options = options;
             }
         }

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
-using Atlas.WorldGen;
 using Atlas.Data;
 
-namespace Atlas.WorldGenStrategies
+namespace Atlas.WorldGen.Strategies
 {
     [XmlRoot]
     public class DefaultStrategyData : IStrategyData
