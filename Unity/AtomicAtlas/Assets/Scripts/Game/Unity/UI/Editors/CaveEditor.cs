@@ -58,6 +58,7 @@ public class CaveEditor : MonoBehaviour
     public void HidePanel()
     {
         gameObject.SetActive(false);
+        NodeGraphManager.GlobalInstance.DeselectNode();
     }
 
     public void Activate(InteractiveNode node)

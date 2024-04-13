@@ -1,7 +1,6 @@
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public enum CameraMode
 {
@@ -34,7 +33,7 @@ public class CameraManager: MonoBehaviour
     private CameraMode cameraMode = CameraMode.PLANE;
 
     private const float INTERPOLATE_CAM_Z = 0.45f;
-    private const float ZOOM_SENSITIVITY = 2.25f;
+    private const float ZOOM_SENSITIVITY = 3.75f;
     private const float SIZE_DELTA = 0.001f;
 
     void Start()
@@ -76,7 +75,7 @@ public class CameraManager: MonoBehaviour
 
             if (Event.current.type == EventType.MouseDrag)
             {
-                if (!eventSystem.IsPointerOverGameObject())
+                if (!eventSystem.IsPointerOverGameObject() && Event.current.button == 2) // Middle mouse is 2, Left click is 0
                 {
                     Vector3 mousePos = Event.current.mousePosition;
                     mousePos.y = mainCamera.pixelHeight - mousePos.y;

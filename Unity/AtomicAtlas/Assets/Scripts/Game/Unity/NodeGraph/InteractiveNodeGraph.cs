@@ -23,8 +23,11 @@ public class InteractiveNodeGraph : MonoBehaviour
 
     private List<InteractiveConnection> connections;
     private List<InteractiveNode> nodes;
+    private Vector3 mins;
+    private Vector3 maxs;
 
     private const float PADDING = 200f;
+    private const float EDGE_TOLERANCE = 12f;
 
     public void Initialize(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
     {
@@ -50,6 +53,11 @@ public class InteractiveNodeGraph : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public bool ContainsPosition(Vector3 point)
+    {
+        return point.x >= (mins.x + EDGE_TOLERANCE) && point.y >= (mins.y + EDGE_TOLERANCE) && point.x <= (maxs.x - EDGE_TOLERANCE) && point.y <= (maxs.y - EDGE_TOLERANCE);
+    }
+
     private void RegenerateLabel(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
     {
         label.GetComponent<TextMeshPro>().text = worldPlane.Name.ToUpper();
@@ -66,8 +74,8 @@ public class InteractiveNodeGraph : MonoBehaviour
 
     private void RegenerateBorder(World world, int offset, NodeGraphSortType sortType)
     {
-        var mins = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)), 0f);
-        var maxs = new Vector3(world.WorldSize.x, (offset * (world.WorldSize.y + PADDING)) + world.WorldSize.y, 0f);
+        mins = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)), 0f);
+        maxs = new Vector3(world.WorldSize.x, (offset * (world.WorldSize.y + PADDING)) + world.WorldSize.y, 0f);
 
         if (sortType == NodeGraphSortType.Z_AXIS)
         {
@@ -92,10 +100,11 @@ public class InteractiveNodeGraph : MonoBehaviour
 
         for (int i = 0; i < worldPlane.Nodes.Count; i++)
         {
+            nodes[i].SetNodeGraph(this);
             nodes[i].SetIsCaveNode(worldPlane.IsCave);
             nodes[i].SetNode(worldPlane.Nodes[i]);
             nodes[i].ResetInteractiveConnections();
-            nodes[i].UpdateNodePosition(world);
+            nodes[i].SetPosition(world);
         }
 
         for (int i = 0; i < worldPlane.Connections.Count; i++)
@@ -103,7 +112,7 @@ public class InteractiveNodeGraph : MonoBehaviour
             connections[i].SetConnection(worldPlane.Connections[i]);
             connections[i].SetNode1(null);
             connections[i].SetNode2(null);
-            connections[i].UpdateConnectionPosition(world);
+            connections[i].SetPosition(world);
         }
 
         foreach (var node in nodes)

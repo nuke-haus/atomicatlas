@@ -25,7 +25,7 @@ public class InteractiveConnection: MonoBehaviour
         
     }
 
-    private void UpdateVisuals()
+    public void UpdateVisuals()
     {
         if (node1 == null || node2 == null)
         {
@@ -40,7 +40,20 @@ public class InteractiveConnection: MonoBehaviour
         }
     }
 
-    public void UpdateConnectionPosition(World world)
+    public void UpdatePosition()
+    {
+        if (node1 == null || node2 == null)
+        {
+            return;
+        }
+
+        var pos1 = node1.transform.position;
+        var pos2 = node2.transform.position;
+
+        transform.position = (pos1 + pos2) / 2;
+    }
+
+    public void SetPosition(World world)
     {
         transform.localPosition = new Vector3(Connection.ConnectionCenter.x * world.WorldSize.x, Connection.ConnectionCenter.y * world.WorldSize.y, 0f);
     }
@@ -69,6 +82,7 @@ public class InteractiveConnection: MonoBehaviour
         }
 
         UpdateVisuals();
+        UpdatePosition();
     }
 
     public void SetConnection(Connection c)

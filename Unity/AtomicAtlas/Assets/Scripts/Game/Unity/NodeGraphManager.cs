@@ -26,6 +26,7 @@ public class NodeGraphManager: MonoBehaviour
     private List<InteractiveNodeGraph> nodeGraphs = new();
     private NodeGraphSortType sortType;
     private bool isGeneratingNodeGraph;
+    private InteractiveNode selectedNode;
 
     void Start()
     {
@@ -58,14 +59,37 @@ public class NodeGraphManager: MonoBehaviour
                         {
                             SetActiveNode(interactiveNode);
                         }
+
+                        selectedNode = interactiveNode;
                     }
                     else if (interactiveConnection != null)
                     {
                         SetActiveConnection(interactiveConnection);
+                        DeselectNode();
                     }
                 }
             }
         }
+
+        if (Input.GetMouseButtonDown(0)) // Left click
+        {
+            if (!eventSystem.IsPointerOverGameObject() && selectedNode != null)
+            {
+                var plane = new Plane(new Vector3(0f, 0f, 1f), selectedNode.transform.position);
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                var enter = 0f;
+
+                if (plane.Raycast(ray, out enter))
+                {
+                    selectedNode.TrySetPosition(ray.GetPoint(enter));
+                }
+            }
+        }
+    }
+
+    public void DeselectNode()
+    {
+        selectedNode = null;
     }
 
     private void SetActiveConnection(InteractiveConnection connection)

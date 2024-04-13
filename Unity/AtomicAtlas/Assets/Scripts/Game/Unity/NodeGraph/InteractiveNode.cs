@@ -9,6 +9,7 @@ public class InteractiveNode: MonoBehaviour
     public bool IsCave {  get; private set; }
 
     private List<InteractiveConnection> connections;
+    private InteractiveNodeGraph parentGraph;
 
     void Start()
     {
@@ -25,7 +26,21 @@ public class InteractiveNode: MonoBehaviour
         
     }
 
-    public void UpdateNodePosition(World world)
+    public void TrySetPosition(Vector3 position)
+    {
+        if (parentGraph.ContainsPosition(position))
+        {
+            transform.position = position;
+
+            foreach (var connection in Connections)
+            {
+                connection.UpdatePosition();
+                connection.UpdateVisuals();
+            }
+        }
+    }
+
+    public void SetPosition(World world)
     {
         transform.localPosition = new Vector3(Node.NormalizedPosition.x * world.WorldSize.x, Node.NormalizedPosition.y * world.WorldSize.y, 0f);
     }
@@ -48,6 +63,11 @@ public class InteractiveNode: MonoBehaviour
     public void SetIsCaveNode(bool isCave)
     {
         IsCave = isCave;
+    }
+
+    public void SetNodeGraph(InteractiveNodeGraph nodeGraph)
+    {
+        parentGraph = nodeGraph;
     }
 
     public void SetNode(Node n)
