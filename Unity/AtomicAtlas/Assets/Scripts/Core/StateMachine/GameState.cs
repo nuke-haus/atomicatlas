@@ -1,40 +1,40 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public abstract class GameState<StateType> where StateType : Enum
+namespace Atlas.Core
 {
-    public abstract StateType GameStateType
+    public abstract class GameState<StateType> where StateType : Enum
     {
-        get;
-    }
+        public abstract StateType GameStateType
+        {
+            get;
+        }
 
-    public abstract StateType GetNextState();
+        public abstract StateType GetNextState();
 
-    public virtual bool CanExitState()
-    {
-        return !GetNextState().Equals(GameStateType);
-    }
-    
+        public virtual bool CanExitState()
+        {
+            return !GetNextState().Equals(GameStateType);
+        }
 
-    public virtual void OnEnter()
-    {
 
-    }
+        public virtual void OnEnter()
+        {
 
-    public virtual void OnExit()
-    {
+        }
 
-    }
+        public virtual void OnExit()
+        {
 
-    public virtual void OnUpdate()
-    {
+        }
 
-    }
+        public virtual void OnUpdate()
+        {
 
-    public virtual void OnFixedUpdate()
-    {
+        }
 
+        public virtual void OnFixedUpdate()
+        {
+
+        }
     }
 }

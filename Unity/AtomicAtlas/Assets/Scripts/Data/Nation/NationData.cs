@@ -2,24 +2,27 @@
 using System.Xml.Serialization;
 using UnityEngine.Assertions;
 
-[XmlRoot]
-public class NationData : IData
+namespace Atlas.Data
 {
-    [XmlElement("Nation")]
-    public List<NationDefinition> Nations;
-
-    private void SortNations()
+    [XmlRoot]
+    public class NationData : IData
     {
-        Nations.Sort((nation, nation2) => nation.NumericID.CompareTo(nation2.NumericID));
-    }
+        [XmlElement("Nation")]
+        public List<NationDefinition> Nations;
 
-    public void Merge(IData data)
-    {
-        Assert.IsTrue(data.GetType() == typeof(NationData), "Cannot merge data of different types");
+        private void SortNations()
+        {
+            Nations.Sort((nation, nation2) => nation.NumericID.CompareTo(nation2.NumericID));
+        }
 
-        var nationData = (NationData)data;
-        Nations.AddRange(nationData.Nations);
+        public void Merge(IData data)
+        {
+            Assert.IsTrue(data.GetType() == typeof(NationData), "Cannot merge data of different types");
 
-        SortNations();
+            var nationData = (NationData)data;
+            Nations.AddRange(nationData.Nations);
+
+            SortNations();
+        }
     }
 }

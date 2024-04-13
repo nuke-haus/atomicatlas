@@ -1,0 +1,17 @@
+{
+    "name": "Atlas.Core",
+    "rootNamespace": "Atlas.Core",
+    "references": [
+        "System",
+        "System.Reflection"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Atlas.WorldGen",
+    "rootNamespace": "Atlas.WorldGen",
+    "references": [
+        "Atlas.Core",
+        "Atlas.Data"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

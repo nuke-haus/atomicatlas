@@ -1,0 +1,21 @@
+{
+	"name": "Atlas.Logic",
+    "rootNamespace": "Atlas.Logic",
+    "references": [
+        "Atlas.Core",
+        "Atlas.Data",
+        "Atlas.WorldGen",
+        "Atlas.WorldGenStrategies",
+        "Atlas.Interactive",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

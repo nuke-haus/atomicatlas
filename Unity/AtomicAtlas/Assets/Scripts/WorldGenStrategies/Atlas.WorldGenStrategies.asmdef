@@ -1,0 +1,19 @@
+{
+	"name": "Atlas.WorldGenStrategies",
+    "rootNamespace": "Atlas.WorldGenStrategies",
+    "references": [
+        "Atlas.Core",
+        "Atlas.Game",
+        "Atlas.Data",
+        "Atlas.WorldGen"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
