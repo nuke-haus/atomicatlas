@@ -4176,6 +4176,7 @@ MonoBehaviour:
   provinceEditor: {fileID: 266017069}
   caveEditor: {fileID: 1235803063}
   connectionEditor: {fileID: 760980539}
+  contextMenuPrefab: {fileID: 2824999362657575914, guid: da7e8609e99e2cd4283d26c770b94d1e, type: 3}
 --- !u!1 &482784464
 GameObject:
   m_ObjectHideFlags: 0
@@ -14743,6 +14744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeGraphRoot: {fileID: 1383040288}
   nodeGraphPrefab: {fileID: 2824999362657575914, guid: 3971bd520aa7eb44281d364b09310c5c, type: 3}
+  selectionBoxPrefab: {fileID: 2824999362657575914, guid: e1f2a67d14390c64ebcdd3cfd2ee171a, type: 3}
   eventSystem: {fileID: 1438302103}
 --- !u!4 &1215543474
 Transform:

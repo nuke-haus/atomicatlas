@@ -24,6 +24,8 @@ namespace Atlas.Logic
         [SerializeField]
         private GameObject label;
 
+        public IEnumerable<InteractiveNode> Nodes => nodes;
+
         private List<InteractiveConnection> connections;
         private List<InteractiveNode> nodes;
         private Vector3 mins;
@@ -56,9 +58,13 @@ namespace Atlas.Logic
             Destroy(gameObject);
         }
 
-        public bool ContainsPosition(Vector3 point)
+        public bool ContainsPosition(Vector3 point, bool includeTolerance = true)
         {
-            return point.x >= (mins.x + EDGE_TOLERANCE) && point.y >= (mins.y + EDGE_TOLERANCE) && point.x <= (maxs.x - EDGE_TOLERANCE) && point.y <= (maxs.y - EDGE_TOLERANCE);
+            var tolerance = includeTolerance 
+                ? EDGE_TOLERANCE 
+                : 0f;
+
+            return point.x >= (mins.x + tolerance) && point.y >= (mins.y + tolerance) && point.x <= (maxs.x - tolerance) && point.y <= (maxs.y - tolerance);
         }
 
         private void RegenerateLabel(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)

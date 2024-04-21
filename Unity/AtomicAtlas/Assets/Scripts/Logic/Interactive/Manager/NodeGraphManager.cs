@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Atlas.WorldGen;
+using System.Linq;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
+using UnityEditor.Experimental.GraphView;
 
 namespace Atlas.Logic
 {
@@ -24,12 +27,17 @@ namespace Atlas.Logic
         private GameObject nodeGraphPrefab;
 
         [SerializeField]
+        private GameObject selectionBoxPrefab;
+
+        [SerializeField]
         private EventSystem eventSystem;
 
+        private List<InteractiveNode> selectedNodes = new();
         private List<InteractiveNodeGraph> nodeGraphs = new();
         private NodeGraphSortType sortType;
         private bool isGeneratingNodeGraph;
         private InteractiveNode selectedNode;
+        private SelectionBox selectionBox;
 
         void Start()
         {
@@ -38,8 +46,12 @@ namespace Atlas.Logic
 
         void Update()
         {
+            // RIGHT CLICK LOGIC - SELECTION LOGIC LIVES HERE
+
             if (Input.GetMouseButtonDown(1)) // Right click
             {
+                EditorMenuManager.GlobalInstance.HideContextMenu();
+
                 if (!eventSystem.IsPointerOverGameObject())
                 {
                     Vector3 mousePos = Input.mousePosition;
@@ -67,26 +79,130 @@ namespace Atlas.Logic
                         }
                         else if (interactiveConnection != null)
                         {
-                            SetActiveConnection(interactiveConnection);
                             DeselectNode();
+                            SetActiveConnection(interactiveConnection);
                         }
+                    }
+                    else
+                    {
+                        DeselectNode();
+                        CreateSelectionBox();
                     }
                 }
             }
-
-            if (Input.GetMouseButtonDown(0)) // Left click
+            else if (Input.GetMouseButton(1)) // Hold right click
             {
-                if (!eventSystem.IsPointerOverGameObject() && selectedNode != null)
+                if (selectionBox != null)
                 {
-                    var plane = new Plane(new Vector3(0f, 0f, 1f), selectedNode.transform.position);
+                    var plane = new Plane(new Vector3(0f, 0f, 1f), selectionBox.transform.position);
                     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     var enter = 0f;
 
                     if (plane.Raycast(ray, out enter))
                     {
-                        selectedNode.TrySetPosition(ray.GetPoint(enter));
+                        selectionBox.SetExtents(ray.GetPoint(enter));
+                    }                    
+                }
+            }
+            else if (Input.GetMouseButtonUp(1)) // Release right click
+            {
+                if (selectionBox != null)
+                {
+                    var plane = new Plane(new Vector3(0f, 0f, 1f), selectionBox.transform.position);
+                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    var enter = 0f;
+
+                    if (plane.Raycast(ray, out enter))
+                    {
+                        EditorMenuManager.GlobalInstance.SetContextMenuActive(ray.GetPoint(enter), selectionBox.GetSelectedNodes());
+                    }
+
+                    DestroySelectionBox();
+                }
+            }
+
+            // LEFT CLICK LOGIC - NODE MOVEMENT LOGIC LIVES HERE
+
+            if (Input.GetMouseButtonDown(0)) // Left click
+            {
+                if (!eventSystem.IsPointerOverGameObject())
+                {
+                    EditorMenuManager.GlobalInstance.HideContextMenu();
+
+                    if (selectedNode != null)
+                    {
+                        var plane = new Plane(new Vector3(0f, 0f, 1f), selectedNode.transform.position);
+                        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        var enter = 0f;
+
+                        if (plane.Raycast(ray, out enter))
+                        {
+                            selectedNode.TrySetPosition(ray.GetPoint(enter));
+                        }
+                    }     
+                }
+            }
+            else if (Input.GetMouseButtonUp(0)) // Release left click
+            {
+
+            }
+        }
+
+        private InteractiveNodeGraph GetNodeGraphContainingCursor()
+        {
+            if (eventSystem.IsPointerOverGameObject())
+            {
+                return null;
+            }
+
+            foreach (var nodeGraph in nodeGraphs)
+            {
+                var plane = new Plane(new Vector3(0f, 0f, 1f), nodeGraph.gameObject.transform.position);
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                var enter = 0f;
+
+                if (plane.Raycast(ray, out enter))
+                {
+                    var position = ray.GetPoint(enter);
+                    if (nodeGraph.ContainsPosition(position, false))
+                    {
+                        return nodeGraph;
                     }
                 }
+            }
+
+            return null;
+        }
+
+        private void DestroySelectionBox()
+        {
+            if (selectionBox != null)
+            {
+                Destroy(selectionBox.gameObject);
+                selectionBox = null;
+            }
+        }
+
+        private void CreateSelectionBox() 
+        {
+            var nodeGraph = GetNodeGraphContainingCursor();
+
+            if (nodeGraph == null)
+            {
+                return;
+            }
+
+            var plane = new Plane(new Vector3(0f, 0f, 1f), nodeGraph.transform.position);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var enter = 0f;
+
+            if (plane.Raycast(ray, out enter))
+            {
+                var position = ray.GetPoint(enter);
+
+                selectionBox = Instantiate(selectionBoxPrefab).GetComponent<SelectionBox>();
+                selectionBox.SetPosition(position);
+                selectionBox.SetNodeGraph(nodeGraph);
             }
         }
 

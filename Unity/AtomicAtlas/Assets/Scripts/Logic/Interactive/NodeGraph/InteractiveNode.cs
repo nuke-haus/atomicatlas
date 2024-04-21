@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Atlas.WorldGen;
+using Atlas.Core;
 
 namespace Atlas.Logic
 {
@@ -16,7 +17,7 @@ namespace Atlas.Logic
 
         void Start()
         {
-
+            SetOutlineVisible(false);
         }
 
         void Update()
@@ -27,6 +28,14 @@ namespace Atlas.Logic
         private void FixedUpdate()
         {
 
+        }
+
+        public void SetOutlineVisible(bool visible)
+        {
+            var outline = gameObject.GetComponent<Outline>();
+            outline.OutlineWidth = visible 
+                ? 2.0f 
+                : 0.0f;
         }
 
         public void TrySetPosition(Vector3 position)

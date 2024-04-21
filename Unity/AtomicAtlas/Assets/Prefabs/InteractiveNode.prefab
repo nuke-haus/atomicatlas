@@ -115,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6144702260458500704}
   - component: {fileID: 5380219650417689333}
+  - component: {fileID: 4903090125569282324}
   m_Layer: 0
   m_Name: InteractiveNode
   m_TagString: Untagged
@@ -150,3 +151,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0721beabefce8841a551f12d3321b4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4903090125569282324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5228857711778178410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abba1664c2d2fa147a678f3292241618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
