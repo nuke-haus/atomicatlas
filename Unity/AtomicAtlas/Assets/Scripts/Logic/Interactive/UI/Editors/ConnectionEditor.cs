@@ -32,12 +32,20 @@ namespace Atlas.Logic
 
         public void HidePanel()
         {
+            selectedConnection?.SetOutlineVisible(false);
+
             gameObject.SetActive(false);
         }
 
         public void Activate(InteractiveConnection connection)
         {
+            if (selectedConnection != null)
+            {
+                selectedConnection.SetOutlineVisible(false);
+            }
+
             selectedConnection = connection;
+            selectedConnection.SetOutlineVisible(true);
 
             UpdatePanel();
         }

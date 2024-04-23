@@ -60,8 +60,8 @@ namespace Atlas.Logic
 
         public bool ContainsPosition(Vector3 point, bool includeTolerance = true)
         {
-            var tolerance = includeTolerance 
-                ? EDGE_TOLERANCE 
+            var tolerance = includeTolerance
+                ? EDGE_TOLERANCE
                 : 0f;
 
             return point.x >= (mins.x + tolerance) && point.y >= (mins.y + tolerance) && point.x <= (maxs.x - tolerance) && point.y <= (maxs.y - tolerance);
@@ -200,6 +200,44 @@ namespace Atlas.Logic
 
                 Destroy(node.gameObject);
             }
+        }
+
+        public void ConnectNodes(IEnumerable<InteractiveNode> nodesToJoin)
+        {
+            if (!nodesToJoin.ElementAt(0).HasConnection(nodesToJoin.ElementAt(1)))
+            {
+                var conn = new Connection(nodesToJoin.ElementAt(0).Node, nodesToJoin.ElementAt(1).Node);
+                nodesToJoin.ElementAt(0).Node.AddConnection(conn);
+                nodesToJoin.ElementAt(1).Node.AddConnection(conn);
+
+                var connection = Instantiate(interactiveConnectionPrefab, gameObject.transform).GetComponent<InteractiveConnection>();
+                connection.SetConnection(conn);
+                connection.SetNode1(nodesToJoin.ElementAt(0));
+                connection.SetNode2(nodesToJoin.ElementAt(1));
+
+                nodesToJoin.ElementAt(0).AddInteractiveConnection(connection);
+                nodesToJoin.ElementAt(1).AddInteractiveConnection(connection);
+
+                connections.Add(connection);
+            }
+        }
+
+        public void DeleteNodes(IEnumerable<InteractiveNode> nodesToRemove)
+        {
+            foreach (var node in nodesToRemove)
+            {
+                nodes.Remove(node);
+
+                Destroy(node.gameObject);
+            }
+        }
+
+        public void AddNode(Vector3 position)
+        {
+            var node = Instantiate(interactiveNodePrefab, gameObject.transform).GetComponent<InteractiveNode>();
+            node.transform.position = position;
+
+            nodes.Add(node);
         }
 
         private void AddNodes(int count)

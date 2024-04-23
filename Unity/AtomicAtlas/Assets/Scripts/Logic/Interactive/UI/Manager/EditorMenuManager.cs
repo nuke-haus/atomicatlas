@@ -45,7 +45,7 @@ namespace Atlas.Logic
             }
         }
 
-        public void SetContextMenuActive(Vector3 position, IEnumerable<InteractiveNode> nodes)
+        public void SetContextMenuActive(Vector3 position, IEnumerable<InteractiveNode> nodes, InteractiveNodeGraph nodeGraph)
         {
             if (contextMenu == null)
             {
@@ -58,28 +58,35 @@ namespace Atlas.Logic
             contextMenu.HighlightNodes(true);
         }
 
+        public void HideAllPanels()
+        {
+            provinceEditor.HidePanel();
+            caveEditor.HidePanel();
+            connectionEditor.HidePanel();
+        }
+
         public void SetProvinceEditorPanelActive(InteractiveNode node)
         {
             provinceEditor.gameObject.SetActive(true);
-            caveEditor.gameObject.SetActive(false);
-            connectionEditor.gameObject.SetActive(false);
+            caveEditor.HidePanel();
+            connectionEditor.HidePanel();
 
             provinceEditor.Activate(node);
         }
 
         public void SetCaveEditorPanelActive(InteractiveNode node)
         {
-            provinceEditor.gameObject.SetActive(false);
+            provinceEditor.HidePanel();
             caveEditor.gameObject.SetActive(true);
-            connectionEditor.gameObject.SetActive(false);
+            connectionEditor.HidePanel();
 
             caveEditor.Activate(node);
         }
 
         public void SetConnectionEditorPanelActive(InteractiveConnection connection)
         {
-            provinceEditor.gameObject.SetActive(false);
-            caveEditor.gameObject.SetActive(false);
+            provinceEditor.HidePanel();
+            caveEditor.HidePanel();
             connectionEditor.gameObject.SetActive(true);
 
             connectionEditor.Activate(connection);

@@ -7,9 +7,10 @@ namespace Atlas.Logic
 {
     public class SelectionBox : MonoBehaviour
     {
+        public InteractiveNodeGraph InteractiveNodeGraph { get; private set; }
+
         private Vector3 startPosition;
         private Vector3 extents;
-        private InteractiveNodeGraph nodeGraph;
 
         void Start()
         {
@@ -54,7 +55,7 @@ namespace Atlas.Logic
 
         public void SetNodeGraph(InteractiveNodeGraph graph)
         {
-            nodeGraph = graph;
+            InteractiveNodeGraph = graph;
         }
 
         public IEnumerable<InteractiveNode> GetSelectedNodes()
@@ -79,7 +80,7 @@ namespace Atlas.Logic
                 ? extents.y
                 : startPosition.y;
 
-            foreach (var node in nodeGraph.Nodes)
+            foreach (var node in InteractiveNodeGraph.Nodes)
             {
                 if (ContainsPosition(mins, maxs, node.transform.position))
                 {

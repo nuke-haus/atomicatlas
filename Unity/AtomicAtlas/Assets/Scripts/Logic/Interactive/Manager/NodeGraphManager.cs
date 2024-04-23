@@ -85,7 +85,8 @@ namespace Atlas.Logic
                     }
                     else
                     {
-                        DeselectNode();
+                        EditorMenuManager.GlobalInstance.HideAllPanels();
+                        DeselectNode();                    
                         CreateSelectionBox();
                     }
                 }
@@ -114,7 +115,7 @@ namespace Atlas.Logic
 
                     if (plane.Raycast(ray, out enter))
                     {
-                        EditorMenuManager.GlobalInstance.SetContextMenuActive(ray.GetPoint(enter), selectionBox.GetSelectedNodes());
+                        EditorMenuManager.GlobalInstance.SetContextMenuActive(ray.GetPoint(enter), selectionBox.GetSelectedNodes(), selectionBox.InteractiveNodeGraph);
                     }
 
                     DestroySelectionBox();
@@ -146,6 +147,21 @@ namespace Atlas.Logic
             {
 
             }
+        }
+
+        public void AddNewNode(InteractiveNodeGraph interactiveNodeGraph, Vector3 position)
+        {
+            interactiveNodeGraph.AddNode(position);
+        }
+
+        public void DeleteNodes(InteractiveNodeGraph interactiveNodeGraph, IEnumerable<InteractiveNode> nodes)
+        {
+            interactiveNodeGraph.DeleteNodes(nodes);
+        }
+
+        public void ConnectNodes(InteractiveNodeGraph interactiveNodeGraph, IEnumerable<InteractiveNode> nodes)
+        {
+            interactiveNodeGraph.ConnectNodes(nodes);
         }
 
         private InteractiveNodeGraph GetNodeGraphContainingCursor()

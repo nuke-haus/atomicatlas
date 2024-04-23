@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Atlas.WorldGen;
 using Atlas.Core;
+using System.Linq;
 
 namespace Atlas.Logic
 {
@@ -60,6 +61,11 @@ namespace Atlas.Logic
         public void ResetInteractiveConnections()
         {
             connections = new List<InteractiveConnection>();
+        }
+
+        public bool HasConnection(InteractiveNode node)
+        {
+            return connections.Any(x => x.Node1 == node || x.Node2 == node);
         }
 
         public void AddInteractiveConnection(InteractiveConnection connection)
