@@ -17,7 +17,7 @@ Atomic Atlas is an open-source map generator for Dominions 6 that is designed to
 
 ## 🗺 ROADMAP 🗺
 
-Work is underway on the map generator and several features are complete. Here is a mostly un-ordered list of features that need to be completed.
+Work is underway on the map generator and several features are complete. Here is a mostly un-ordered list of features that need to be completed. Once all MVP features are complete, I can release a 1.0 version of this map generator.
 
 ### 🏅 Features For MVP 🏅
 
