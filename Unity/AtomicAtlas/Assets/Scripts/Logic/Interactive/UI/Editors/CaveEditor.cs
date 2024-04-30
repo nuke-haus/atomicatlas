@@ -62,6 +62,7 @@ namespace Atlas.Logic
         public void HidePanel()
         {
             selectedNode?.SetOutlineVisible(false);
+            selectedNode = null;
 
             gameObject.SetActive(false);
             NodeGraphManager.GlobalInstance.DeselectNode();

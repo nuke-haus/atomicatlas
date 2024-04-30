@@ -33,6 +33,7 @@ namespace Atlas.Logic
         public void HidePanel()
         {
             selectedConnection?.SetOutlineVisible(false);
+            selectedConnection = null;
 
             gameObject.SetActive(false);
         }

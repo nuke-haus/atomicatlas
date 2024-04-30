@@ -35,17 +35,28 @@ namespace Atlas.Logic
 
         public void OnClickAddButton()
         {
+            EditorMenuManager.GlobalInstance.HideContextMenu();
             NodeGraphManager.GlobalInstance.AddNewNode(nodeGraph, transform.position);
         }
 
         public void OnClickRemoveButton()
         {
-            NodeGraphManager.GlobalInstance.DeleteNodes(nodeGraph, selectedNodes);
+            var nodes = selectedNodes.ToList();
+
+            EditorMenuManager.GlobalInstance.HideContextMenu();
+            NodeGraphManager.GlobalInstance.DeleteNodes(nodeGraph, nodes);
         }
 
         public void OnClickJoinButton()
         {
-            NodeGraphManager.GlobalInstance.ConnectNodes(nodeGraph, selectedNodes);
+            var nodes = selectedNodes.ToList();
+
+            EditorMenuManager.GlobalInstance.HideContextMenu();
+
+            if (nodes.Count() == 2)
+            {
+                NodeGraphManager.GlobalInstance.ConnectNodes(nodeGraph, nodes.ElementAt(0), nodes.ElementAt(1));
+            }
         }
 
         public void SetNodeGraph(InteractiveNodeGraph graph)
@@ -60,6 +71,11 @@ namespace Atlas.Logic
 
         public void SetNodes(IEnumerable<InteractiveNode> nodes)
         {
+            if (nodes == null)
+            {
+                nodes = new List<InteractiveNode>();
+            }
+
             selectedNodes = nodes;
             UpdateVisibleButtons();
         }
@@ -93,7 +109,7 @@ namespace Atlas.Logic
                     joinButton.gameObject.SetActive(true);
                     break;
                 default:
-                    removeButton.gameObject.SetActive(false);
+                    removeButton.gameObject.SetActive(true);
                     break;
             }
 

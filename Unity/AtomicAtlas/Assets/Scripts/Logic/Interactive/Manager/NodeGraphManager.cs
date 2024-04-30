@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Atlas.WorldGen;
-using System.Linq;
 using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
-using UnityEditor.Experimental.GraphView;
 
 namespace Atlas.Logic
 {
@@ -39,6 +37,9 @@ namespace Atlas.Logic
         private InteractiveNode selectedNode;
         private SelectionBox selectionBox;
 
+        private const int LEFT_BUTTON = 0;
+        private const int RIGHT_BUTTON = 1;
+
         void Start()
         {
             GlobalInstance = this;
@@ -46,9 +47,9 @@ namespace Atlas.Logic
 
         void Update()
         {
-            // RIGHT CLICK LOGIC - SELECTION LOGIC LIVES HERE
+            // SELECTION LOGIC LIVES HERE
 
-            if (Input.GetMouseButtonDown(1)) // Right click
+            if (Input.GetMouseButtonDown(RIGHT_BUTTON)) 
             {
                 EditorMenuManager.GlobalInstance.HideContextMenu();
 
@@ -91,7 +92,7 @@ namespace Atlas.Logic
                     }
                 }
             }
-            else if (Input.GetMouseButton(1)) // Hold right click
+            else if (Input.GetMouseButton(RIGHT_BUTTON)) 
             {
                 if (selectionBox != null)
                 {
@@ -105,7 +106,7 @@ namespace Atlas.Logic
                     }                    
                 }
             }
-            else if (Input.GetMouseButtonUp(1)) // Release right click
+            else if (Input.GetMouseButtonUp(RIGHT_BUTTON)) 
             {
                 if (selectionBox != null)
                 {
@@ -122,9 +123,9 @@ namespace Atlas.Logic
                 }
             }
 
-            // LEFT CLICK LOGIC - NODE MOVEMENT LOGIC LIVES HERE
+            // NODE MOVEMENT LOGIC LIVES HERE
 
-            if (Input.GetMouseButtonDown(0)) // Left click
+            if (Input.GetMouseButtonDown(LEFT_BUTTON)) 
             {
                 if (!eventSystem.IsPointerOverGameObject())
                 {
@@ -140,10 +141,10 @@ namespace Atlas.Logic
                         {
                             selectedNode.TrySetPosition(ray.GetPoint(enter));
                         }
-                    }     
+                    }   
                 }
             }
-            else if (Input.GetMouseButtonUp(0)) // Release left click
+            else if (Input.GetMouseButtonUp(LEFT_BUTTON)) 
             {
 
             }
@@ -159,9 +160,9 @@ namespace Atlas.Logic
             interactiveNodeGraph.DeleteNodes(nodes);
         }
 
-        public void ConnectNodes(InteractiveNodeGraph interactiveNodeGraph, IEnumerable<InteractiveNode> nodes)
+        public void ConnectNodes(InteractiveNodeGraph interactiveNodeGraph, InteractiveNode node1, InteractiveNode node2)
         {
-            interactiveNodeGraph.ConnectNodes(nodes);
+            interactiveNodeGraph.ConnectNodes(node1, node2);
         }
 
         private InteractiveNodeGraph GetNodeGraphContainingCursor()

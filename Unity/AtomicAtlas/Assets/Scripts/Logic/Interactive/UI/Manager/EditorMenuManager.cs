@@ -38,9 +38,10 @@ namespace Atlas.Logic
 
         public void HideContextMenu()
         {
-            if (contextMenu != null)
+            if (contextMenu != null && contextMenu.gameObject.activeSelf)
             {
                 contextMenu.HighlightNodes(false);
+                contextMenu.SetNodes(null);
                 contextMenu.gameObject.SetActive(false);
             }
         }
@@ -55,6 +56,7 @@ namespace Atlas.Logic
             contextMenu.gameObject.SetActive(true);
             contextMenu.transform.position = position;
             contextMenu.SetNodes(nodes);
+            contextMenu.SetNodeGraph(nodeGraph);
             contextMenu.HighlightNodes(true);
         }
 

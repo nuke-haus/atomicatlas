@@ -13,7 +13,7 @@ namespace Atlas.Logic
         public Node Node { get; private set; }
         public bool IsCave { get; private set; }
 
-        private List<InteractiveConnection> connections;
+        private List<InteractiveConnection> connections = new();
         private InteractiveNodeGraph parentGraph;
 
         void Start()

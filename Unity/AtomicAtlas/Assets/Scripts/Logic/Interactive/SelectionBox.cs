@@ -8,9 +8,11 @@ namespace Atlas.Logic
     public class SelectionBox : MonoBehaviour
     {
         public InteractiveNodeGraph InteractiveNodeGraph { get; private set; }
+        public IEnumerable<InteractiveNode> SelectedNodes => nodes;
 
         private Vector3 startPosition;
         private Vector3 extents;
+        private List<InteractiveNode> nodes;
 
         void Start()
         {
@@ -62,7 +64,7 @@ namespace Atlas.Logic
         {
             var mins = new Vector3();
             var maxs = new Vector3();
-            var nodes = new List<InteractiveNode>();
+            nodes = new List<InteractiveNode>();
 
             mins.x = extents.x < startPosition.x
                 ? extents.x 

@@ -202,21 +202,23 @@ namespace Atlas.Logic
             }
         }
 
-        public void ConnectNodes(IEnumerable<InteractiveNode> nodesToJoin)
+        public void ConnectNodes(InteractiveNode node1, InteractiveNode node2)
         {
-            if (!nodesToJoin.ElementAt(0).HasConnection(nodesToJoin.ElementAt(1)))
+            if (!node1.HasConnection(node2))
             {
-                var conn = new Connection(nodesToJoin.ElementAt(0).Node, nodesToJoin.ElementAt(1).Node);
-                nodesToJoin.ElementAt(0).Node.AddConnection(conn);
-                nodesToJoin.ElementAt(1).Node.AddConnection(conn);
+                var conn = new Connection(node1.Node, node2.Node);
+                node1.Node.AddConnection(conn);
+                node2.Node.AddConnection(conn);
 
                 var connection = Instantiate(interactiveConnectionPrefab, gameObject.transform).GetComponent<InteractiveConnection>();
                 connection.SetConnection(conn);
-                connection.SetNode1(nodesToJoin.ElementAt(0));
-                connection.SetNode2(nodesToJoin.ElementAt(1));
+                connection.SetNode1(node1);
+                connection.SetNode2(node2);
+                connection.UpdatePosition();
+                connection.UpdateVisuals();
 
-                nodesToJoin.ElementAt(0).AddInteractiveConnection(connection);
-                nodesToJoin.ElementAt(1).AddInteractiveConnection(connection);
+                node1.AddInteractiveConnection(connection);
+                node2.AddInteractiveConnection(connection);
 
                 connections.Add(connection);
             }
@@ -224,11 +226,25 @@ namespace Atlas.Logic
 
         public void DeleteNodes(IEnumerable<InteractiveNode> nodesToRemove)
         {
+            var connectionsToDelete = new HashSet<InteractiveConnection>();
+
             foreach (var node in nodesToRemove)
             {
                 nodes.Remove(node);
 
+                foreach (var conn in node.Connections)
+                {
+                    connectionsToDelete.Add(conn);
+                }
+
                 Destroy(node.gameObject);
+            }
+
+            foreach (var conn in connectionsToDelete)
+            {
+                connections.Remove(conn);
+
+                Destroy(conn.gameObject);
             }
         }
 
@@ -236,6 +252,8 @@ namespace Atlas.Logic
         {
             var node = Instantiate(interactiveNodePrefab, gameObject.transform).GetComponent<InteractiveNode>();
             node.transform.position = position;
+            node.SetNode(new Node(Vector2.zero, WorldGen.Terrain.PLAINS));
+            node.SetNodeGraph(this);
 
             nodes.Add(node);
         }
