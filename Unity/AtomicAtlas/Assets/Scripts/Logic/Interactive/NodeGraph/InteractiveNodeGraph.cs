@@ -224,6 +224,18 @@ namespace Atlas.Logic
             }
         }
 
+        public void DeleteConnections(IEnumerable<InteractiveConnection> connectionsToRemove)
+        {
+            foreach (var connection in connectionsToRemove)
+            {
+                connections.Remove(connection);
+                connection.Node1.RemoveInteractiveConnection(connection);
+                connection.Node2.RemoveInteractiveConnection(connection);
+
+                Destroy(connection.gameObject);
+            }
+        }
+
         public void DeleteNodes(IEnumerable<InteractiveNode> nodesToRemove)
         {
             var connectionsToDelete = new HashSet<InteractiveConnection>();

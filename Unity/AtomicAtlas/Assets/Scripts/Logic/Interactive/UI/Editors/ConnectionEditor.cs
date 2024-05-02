@@ -51,6 +51,14 @@ namespace Atlas.Logic
             UpdatePanel();
         }
 
+        public void DeleteConnection()
+        {
+            var connection = selectedConnection;
+
+            HidePanel();
+            NodeGraphManager.GlobalInstance.DeleteConnection(connection.Node1.ParentNodeGraph, connection);
+        }
+
         public void ApplyChanges()
         {
             var connection = ConnectionType.STANDARD;

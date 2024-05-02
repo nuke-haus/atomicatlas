@@ -150,9 +150,19 @@ namespace Atlas.Logic
             }
         }
 
+        public void DeleteConnection(InteractiveNodeGraph interactiveNodeGraph, InteractiveConnection connection)
+        {
+            interactiveNodeGraph.DeleteConnections(new List<InteractiveConnection> { connection });
+        }
+
         public void AddNewNode(InteractiveNodeGraph interactiveNodeGraph, Vector3 position)
         {
             interactiveNodeGraph.AddNode(position);
+        }
+
+        public void DeleteNode(InteractiveNodeGraph interactiveNodeGraph, InteractiveNode node)
+        {
+            interactiveNodeGraph.DeleteNodes(new List<InteractiveNode> { node });
         }
 
         public void DeleteNodes(InteractiveNodeGraph interactiveNodeGraph, IEnumerable<InteractiveNode> nodes)

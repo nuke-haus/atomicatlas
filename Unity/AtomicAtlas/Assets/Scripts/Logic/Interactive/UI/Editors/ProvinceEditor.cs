@@ -96,6 +96,14 @@ namespace Atlas.Logic
             UpdatePanel();
         }
 
+        public void DeleteNode()
+        {
+            var node = selectedNode;
+
+            HidePanel();
+            NodeGraphManager.GlobalInstance.DeleteNode(node.ParentNodeGraph, node);
+        }
+
         public void ApplyChanges()
         {
             var terrain = Terrain.PLAINS;

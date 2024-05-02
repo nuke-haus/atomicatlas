@@ -9,6 +9,7 @@ namespace Atlas.Logic
 {
     public class InteractiveNode : MonoBehaviour
     {
+        public InteractiveNodeGraph ParentNodeGraph => parentGraph;
         public List<InteractiveConnection> Connections => connections;
         public Node Node { get; private set; }
         public bool IsCave { get; private set; }
