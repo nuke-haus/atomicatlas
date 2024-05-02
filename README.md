@@ -35,7 +35,7 @@ Work is underway on the map generator and several features are complete. Here is
 - [x] Interactive node and connection generation
 - [ ] A simple default map generation strategy that is configurable
 - [x] Basic map editor tooling - Ability to modify nodes
-- [ ] Basic map editor tooling - Ability to modify connections
+- [x] Basic map editor tooling - Ability to modify connections
 - [ ] Province visualization with 2D generated meshes
 - [ ] Visual representation of vertical and horizontal wrapped provinces
 - [ ] Connection visualization with color coding
