@@ -28,7 +28,7 @@ Work is underway on the map generator and several features are complete. Here is
 - [x] Core architecture: Modular world generator system
 - [x] UI: Main HUD
 - [x] UI: Context menu for manual editor tools
-- [ ] UI: Game settings menu
+- [x] UI: Game settings menu
 - [ ] UI: Generator settings menu
 - [ ] Modular interface for configuring map generation
 - [x] Camera controls (zoom, pan)
