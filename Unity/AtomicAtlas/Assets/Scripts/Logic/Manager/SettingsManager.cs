@@ -11,12 +11,14 @@ namespace Atlas.Logic
 {
     public interface ISettingsManager
     {
+        public int ProceduralNameChance { get; }
         public IStrategy Strategy { get; }
         public StrategyConfigDefinition StrategyConfigDefinition { get; }
         public IEnumerable<PlayerInfo> AllPlayerInfo { get; }
         public bool IsDisciples { get; }
 
         public void SetDisciples(bool disciples);
+        public void SetProceduralNameChance(int chance);
         public void UpdatePlayerCount(int count);
         public IEnumerable<Type> GetStrategyTypes();
         public void SetActiveStrategy(Type strategyType);
@@ -26,6 +28,7 @@ namespace Atlas.Logic
     [Injectable(typeof(ISettingsManager))]
     public class SettingsManager : ISettingsManager
     {
+        public int ProceduralNameChance { get; private set; } = 10;
         public IStrategy Strategy { get; private set; }
         public StrategyConfigDefinition StrategyConfigDefinition { get; private set; }
         public bool IsDisciples { get; private set; }
@@ -61,6 +64,11 @@ namespace Atlas.Logic
                     allPlayerInfo.RemoveAt(allPlayerInfo.Count - 1);
                 }
             }
+        }
+
+        public void SetProceduralNameChance(int chance)
+        {
+            ProceduralNameChance = chance;
         }
 
         public void SetDisciples(bool isDisciples)

@@ -70,6 +70,9 @@ namespace Atlas.Logic
         [SerializeField]
         private Toggle disciplesToggle;
 
+        [SerializeField]
+        private TMP_InputField proceduralNameChanceInput;
+
         private List<PlayerInfoEntry> playerInfoEntries = new();
         private List<ErrorLogEntry> errorLogEntries = new();
         private IDataManager dataManager;
@@ -116,7 +119,19 @@ namespace Atlas.Logic
             settingsManager.SetActiveStrategy(types.First());
             OnStrategyChanged();
 
-            playerCountDropdown.value = 7; // 9 player option is default
+            playerCountDropdown.value = 7; // 9 player option is default, it's at index 7
+            proceduralNameChanceInput.text = settingsManager.ProceduralNameChance.ToString(); 
+        }
+
+        public void OnProceduralNameChanceChanged()
+        {
+            var text = proceduralNameChanceInput.text;
+            if (text == string.Empty)
+            {
+                text = "0";
+            }
+
+            settingsManager.SetProceduralNameChance(Mathf.Clamp(int.Parse(text), 0, 100));
         }
 
         public void OnClickDisciplesToggle()

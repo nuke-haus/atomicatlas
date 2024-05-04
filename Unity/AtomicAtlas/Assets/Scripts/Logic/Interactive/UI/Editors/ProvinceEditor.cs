@@ -172,8 +172,15 @@ namespace Atlas.Logic
                 terrain |= Terrain.MANY_SITES;
             }
 
+            var text = PlaneGateNumberInput.text;
+            if (text == string.Empty)
+            {
+                text = "0";
+                PlaneGateNumberInput.text = string.Empty;
+            }
+
             selectedNode.Node.SetHasFort(FortToggle.isOn);
-            selectedNode.Node.SetGateNumber(int.Parse(PlaneGateNumberInput.text));
+            selectedNode.Node.SetGateNumber(int.Parse(text));
             selectedNode.Node.SetNameOverride(NameInput.text);
             selectedNode.Node.SetTerrain(terrain);
 
@@ -182,7 +189,11 @@ namespace Atlas.Logic
 
         private void UpdatePanel()
         {
-            PlaneGateNumberInput.text = selectedNode.Node.GateNumber.ToString();
+            var gate = selectedNode.Node.GateNumber == 0
+                ? string.Empty
+                : selectedNode.Node.GateNumber.ToString();
+
+            PlaneGateNumberInput.text = gate;
             NameInput.text = selectedNode.Node.NameOverride;
 
             FarmToggle.isOn = selectedNode.Node.Terrain.HasFlag(Terrain.FARM);
