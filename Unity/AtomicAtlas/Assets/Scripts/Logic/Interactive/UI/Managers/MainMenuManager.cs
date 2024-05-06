@@ -28,6 +28,7 @@ namespace Atlas.Logic
         public event EventHandler OnClickExportEvent;
         public event EventHandler OnClickQuitEvent;
 
+        [Header("Panel References")]
         [SerializeField]
         private GameObject uiRoot;
 
@@ -46,18 +47,21 @@ namespace Atlas.Logic
         [SerializeField]
         private GameObject errorLogPanel;
 
+        [Header("Error Log")]
         [SerializeField]
         private GameObject errorLogListRoot;
 
         [SerializeField]
         private GameObject errorLogEntryPrefab;
 
+        [Header("Generator Settings")]
         [SerializeField]
         private TMP_Dropdown strategyDropdown;
 
         [SerializeField]
         private TMP_Dropdown strategyConfigDropdown;
 
+        [Header("Gameplay Settings")]
         [SerializeField]
         private GameObject playerInfoEntryPrefab;
 
@@ -93,16 +97,6 @@ namespace Atlas.Logic
 
         }
 
-        public void ClearErrorLog()
-        {
-            foreach (var entry in errorLogEntries)
-            {
-                Destroy(entry.gameObject);
-            }
-
-            errorLogEntries.Clear();
-        }
-
         private void InitializeDropdowns()
         {
             var types = AtlasHelpers.GetTypesWithAttribute<StrategyAttribute>();
@@ -122,6 +116,36 @@ namespace Atlas.Logic
             playerCountDropdown.value = 7; // 9 player option is default, it's at index 7
             proceduralNameChanceInput.text = settingsManager.ProceduralNameChance.ToString(); 
         }
+
+        #region Generator Settings
+
+        public void OnStrategyChanged()
+        {
+            var types = AtlasHelpers.GetTypesWithAttribute<StrategyAttribute>().ToList();
+            var index = strategyDropdown.value;
+            var selectedType = types[index];
+            var attribute = (StrategyAttribute)Attribute.GetCustomAttribute(selectedType, typeof(StrategyAttribute));
+            var data = dataManager.AllStrategyData.FirstOrDefault(data => data.GetType() == attribute.DataClassType);
+
+            if (data == null || !data.StrategyConfigDefinitions.Any())
+            {
+                Debug.LogError("Cannot get data for strategy type " + selectedType.Name);
+            }
+            else
+            {
+                settingsManager.SetActiveStrategyConfigDefinition(data.StrategyConfigDefinitions.First());
+                var options = data.StrategyConfigDefinitions.Select(config => new TMP_Dropdown.OptionData(config.Name.ToUpper())).ToList();
+                strategyConfigDropdown.options = options;
+            }
+        }
+
+        public void OnStrategyConfigChanged()
+        {
+            var newValue = strategyConfigDropdown.value;
+        }
+
+        #endregion
+        #region Gameplay Settings
 
         public void OnProceduralNameChanceChanged()
         {
@@ -179,30 +203,8 @@ namespace Atlas.Logic
             }
         }
 
-        public void OnStrategyChanged()
-        {
-            var types = AtlasHelpers.GetTypesWithAttribute<StrategyAttribute>().ToList();
-            var index = strategyDropdown.value;
-            var selectedType = types[index];
-            var attribute = (StrategyAttribute)Attribute.GetCustomAttribute(selectedType, typeof(StrategyAttribute));
-            var data = dataManager.AllStrategyData.FirstOrDefault(data => data.GetType() == attribute.DataClassType);
-
-            if (data == null || !data.StrategyConfigDefinitions.Any())
-            {
-                Debug.LogError("Cannot get data for strategy type " + selectedType.Name);
-            }
-            else
-            {
-                settingsManager.SetActiveStrategyConfigDefinition(data.StrategyConfigDefinitions.First());
-                var options = data.StrategyConfigDefinitions.Select(config => new TMP_Dropdown.OptionData(config.Name.ToUpper())).ToList();
-                strategyConfigDropdown.options = options;
-            }
-        }
-
-        public void OnStrategyConfigChanged()
-        {
-            var newValue = strategyConfigDropdown.value;
-        }
+        #endregion
+        #region Error Log
 
         public void AddErrorLogEntry(string text, ErrorLogLevel logLevel, bool showPanel)
         {
@@ -218,6 +220,16 @@ namespace Atlas.Logic
             }
         }
 
+        public void ClearErrorLog()
+        {
+            foreach (var entry in errorLogEntries)
+            {
+                Destroy(entry.gameObject);
+            }
+
+            errorLogEntries.Clear();
+        }
+
         private void HandleExceptions(string log, string stack, LogType type)
         {
             if (type == LogType.Exception && !settingsPanel.activeSelf)
@@ -226,6 +238,8 @@ namespace Atlas.Logic
                 // errorLogText.text = log + "\n\n" + stack;
             }
         }
+
+        #endregion
 
         public void SetUIActive(bool active)
         {
