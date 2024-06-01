@@ -4,7 +4,7 @@ using TMPro;
 
 namespace Atlas.Logic
 {
-    public class NumericEntry : MonoBehaviour
+    public class StringEntry : MonoBehaviour
     {
         [SerializeField]
         private TMP_Text labelText;
@@ -12,7 +12,7 @@ namespace Atlas.Logic
         [SerializeField]
         private TMP_InputField valueInput;
 
-        public int Value { get; private set; }
+        public string Value { get; private set; }
 
         public delegate void OnValueChange();
 
@@ -33,23 +33,23 @@ namespace Atlas.Logic
             labelText.text = label;
         }
 
-        public void SetValue(int number)
+        public void SetValue(string value)
         {
-            Value = number;
-            valueInput.text = number.ToString();
+            Value = value;
+            valueInput.text = value;
         }
 
-        public void OnNumericValueChange()
+        public void OnStringValueChange()
         {
             var text = valueInput.text;
             if (text == string.Empty)
             {
-                text = "0";
+                text = "NONE";
             }
 
-            Value = int.Parse(text);
+            Value = text;
 
-            OnValueUpdate.Invoke();
+            OnValueUpdate?.Invoke();
         }
     }
 }

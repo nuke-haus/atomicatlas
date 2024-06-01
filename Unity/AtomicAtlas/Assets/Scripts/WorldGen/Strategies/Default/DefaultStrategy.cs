@@ -23,7 +23,13 @@ namespace Atlas.WorldGen.Strategies
     public class DefaultStrategyConfigDefinition : StrategyConfigDefinition
     {
         [XmlElement]
-        public string SomeValue;
+        public bool SomeBoolValue;
+
+        [XmlElement]
+        public int SomeIntValue;
+
+        [XmlElement]
+        public IntRange SomeIntRange;
     }
 
     [Strategy("DEFAULT STRATEGY", typeof(DefaultStrategyData))]

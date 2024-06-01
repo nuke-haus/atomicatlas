@@ -6,6 +6,14 @@ using TMPro;
 using UnityEngine.UI;
 using Atlas.Core;
 using Atlas.WorldGen;
+using Atlas.Data;
+using System.Collections;
+using Codice.CM.SEIDInfo;
+using System.Security.Principal;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Atlas.Logic
 {
@@ -61,6 +69,24 @@ namespace Atlas.Logic
         [SerializeField]
         private TMP_Dropdown strategyConfigDropdown;
 
+        [SerializeField]
+        private Transform parameterListRoot;
+
+        [SerializeField]
+        private GameObject booleanEntryPrefab;
+
+        [SerializeField]
+        private GameObject numericEntryPrefab;
+
+        [SerializeField]
+        private GameObject stringEntryPrefab;
+
+        [SerializeField]
+        private GameObject numericRangeEntryPrefab;
+
+        [SerializeField]
+        private GameObject numericRangeCollectionPrefab;
+
         [Header("Gameplay Settings")]
         [SerializeField]
         private GameObject playerInfoEntryPrefab;
@@ -77,8 +103,11 @@ namespace Atlas.Logic
         [SerializeField]
         private TMP_InputField proceduralNameChanceInput;
 
+        private Dictionary<Type, Action<FieldInfo>> parameterEditorFunctions = new();
+        private List<GameObject> parameterEditors = new();
         private List<PlayerInfoEntry> playerInfoEntries = new();
         private List<ErrorLogEntry> errorLogEntries = new();
+        private StrategyConfigDefinition strategyConfigDefinition;
         private IDataManager dataManager;
         private ISettingsManager settingsManager;
 
@@ -90,11 +119,25 @@ namespace Atlas.Logic
             settingsManager = DependencyInjector.Resolve<ISettingsManager>();
 
             InitializeDropdowns();
+            InitializeParameterEditor();
         }
 
         void Update()
         {
 
+        }
+
+        private void InitializeParameterEditor()
+        {
+            parameterEditorFunctions[typeof(int)] = (field) => CreateIntEditor(field);
+            parameterEditorFunctions[typeof(IntRange)] = (field) => CreateIntRangeEditor(field);
+            parameterEditorFunctions[typeof(bool)] = (field) => CreateBoolEditor(field);
+
+            // For MVP we don't need string editors
+            // parameterEditorFunctions[typeof(string)] = (field) => CreateStringEditor(field);
+
+            OnStrategyChanged();
+            OnStrategyConfigChanged();
         }
 
         private void InitializeDropdowns()
@@ -111,7 +154,6 @@ namespace Atlas.Logic
 
             strategyDropdown.options = strategyList;
             settingsManager.SetActiveStrategy(types.First());
-            OnStrategyChanged();
 
             playerCountDropdown.value = 7; // 9 player option is default, it's at index 7
             proceduralNameChanceInput.text = settingsManager.ProceduralNameChance.ToString(); 
@@ -133,7 +175,8 @@ namespace Atlas.Logic
             }
             else
             {
-                settingsManager.SetActiveStrategyConfigDefinition(data.StrategyConfigDefinitions.First());
+                strategyConfigDefinition = data.StrategyConfigDefinitions.First();
+                settingsManager.SetActiveStrategyConfigDefinition(strategyConfigDefinition);
                 var options = data.StrategyConfigDefinitions.Select(config => new TMP_Dropdown.OptionData(config.Name.ToUpper())).ToList();
                 strategyConfigDropdown.options = options;
             }
@@ -141,7 +184,123 @@ namespace Atlas.Logic
 
         public void OnStrategyConfigChanged()
         {
+            var types = AtlasHelpers.GetTypesWithAttribute<StrategyAttribute>().ToList();
+            var index = strategyDropdown.value;
+            var selectedType = types[index];
+            var attribute = (StrategyAttribute)Attribute.GetCustomAttribute(selectedType, typeof(StrategyAttribute));
+            var data = dataManager.AllStrategyData.FirstOrDefault(data => data.GetType() == attribute.DataClassType);
+
             var newValue = strategyConfigDropdown.value;
+            strategyConfigDefinition = data.StrategyConfigDefinitions.ElementAt(newValue);
+
+            UpdateConfigDefinitionEditor();
+        }
+
+        private void UpdateConfigDefinitionEditor()
+        {
+            // Delete all the old editors
+            foreach (var gameObject in parameterEditors)
+            {
+                Destroy(gameObject);
+            }
+            parameterEditors.Clear();
+
+            // Use reflection to grab all of the fields of the new config definition
+            var type = strategyConfigDefinition.GetType();
+            var currentGroupName = string.Empty;
+            var fields = type.GetFields().Where(f => f.IsPublic).ToList();
+            fields.Sort((fieldA, fieldB) =>
+            {
+                if (fieldA.FieldType == typeof(string))
+                {
+                    return -1;
+                }
+                if (fieldB.FieldType == typeof(string))
+                {
+                    return 1;
+                }
+                return fieldA.FieldType.Name.CompareTo(fieldB.FieldType.Name);
+            });
+
+            foreach (var field in fields)
+            {
+                if (Attribute.IsDefined(field, typeof(IntRangeGroupAttribute)))
+                {
+                    var attr = field.GetCustomAttributes(typeof(IntRangeGroupAttribute), false);
+                    currentGroupName = ((IntRangeGroupAttribute)attr[0]).GroupName;
+                }
+
+                if (parameterEditorFunctions.ContainsKey(field.FieldType))
+                {
+                    parameterEditorFunctions[field.FieldType](field);
+                }
+                else
+                {
+                    if (field.FieldType != typeof(string))
+                    {
+                        Debug.LogError("Failed to create parameter editor for unsupported type: " + field.FieldType.Name);
+                    }
+                }
+            }
+        }
+
+        private string SanitizeFieldName(string name)
+        {
+            var spacedText = Regex.Replace(name, "([a-z])([A-Z])", "$1 $2");
+            return spacedText.ToUpper();
+        }
+
+        private void CreateIntRangeEditor(FieldInfo field)
+        {
+            var numericRangeEntry = Instantiate(numericRangeEntryPrefab, parameterListRoot).GetComponent<NumericRangeEntry>();
+            numericRangeEntry.SetLabel(SanitizeFieldName(field.Name));
+            IntRange valueRange = (IntRange)field.GetValue(strategyConfigDefinition);
+            numericRangeEntry.SetValues(valueRange.Min, valueRange.Max);
+            numericRangeEntry.OnValueUpdate += () =>
+            {
+                field.SetValue(strategyConfigDefinition, numericRangeEntry.IntRangeValue);
+            };
+
+            parameterEditors.Add(numericRangeEntry.gameObject);
+        }
+
+        private void CreateBoolEditor(FieldInfo field)
+        {
+            var boolEntry = Instantiate(booleanEntryPrefab, parameterListRoot).GetComponent<BooleanEntry>();
+            boolEntry.SetLabel(SanitizeFieldName(field.Name));
+            boolEntry.SetValue((bool)field.GetValue(strategyConfigDefinition));
+            boolEntry.OnValueUpdate += () =>
+            {
+                field.SetValue(strategyConfigDefinition, boolEntry.Value);
+            };
+
+            parameterEditors.Add(boolEntry.gameObject);
+        }
+
+        private void CreateIntEditor(FieldInfo field)
+        {
+            var numericEntry = Instantiate(numericEntryPrefab, parameterListRoot).GetComponent<NumericEntry>();
+            numericEntry.SetLabel(SanitizeFieldName(field.Name));
+            numericEntry.SetValue((int)field.GetValue(strategyConfigDefinition));
+            numericEntry.OnValueUpdate += () =>
+            {
+                field.SetValue(strategyConfigDefinition, numericEntry.Value);
+            };
+
+            parameterEditors.Add(numericEntry.gameObject);
+        }
+
+        private void CreateStringEditor(FieldInfo field)
+        {
+            var stringEntry = Instantiate(stringEntryPrefab, parameterListRoot).GetComponent<StringEntry>();
+            stringEntry.SetLabel(SanitizeFieldName(field.Name));
+            stringEntry.SetValue((string)field.GetValue(strategyConfigDefinition));
+            stringEntry.OnValueUpdate += () =>
+            {
+                field.SetValue(strategyConfigDefinition, stringEntry.Value);
+            };
+
+            parameterEditors.Add(stringEntry.gameObject);
         }
 
         #endregion

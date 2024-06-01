@@ -39,7 +39,7 @@ namespace Atlas.Logic
 
             foreach (var range in ranges)
             {
-                range.OnMaxValueUpdate += OnValueChange;
+                range.OnValueUpdate += OnValueChange;
             }
 
             OnValueChange();

@@ -1,7 +1,6 @@
-
 using UnityEngine;
 using TMPro;
-using UnityEngine.Analytics;
+using Atlas.WorldGen;
 
 namespace Atlas.Logic
 {
@@ -18,10 +17,11 @@ namespace Atlas.Logic
 
         public int MinValue { get; private set; }
         public int MaxValue { get; private set; }
+        public IntRange IntRangeValue => new IntRange { Max=MaxValue, Min=MinValue };
 
         public delegate void OnValueChange();
 
-        public event OnValueChange OnMaxValueUpdate;
+        public event OnValueChange OnValueUpdate;
 
         void Start()
         {
@@ -33,10 +33,17 @@ namespace Atlas.Logic
 
         }
 
+        public void SetLabel(string label)
+        {
+            labelText.text = label;
+        }
+
         public void SetValues(int min, int max)
         {
             MinValue = min;
             MaxValue = max;
+            minValueInput.text = min.ToString();
+            maxValueInput.text = max.ToString();
         }
 
         public void OnMinValueChange()
@@ -51,7 +58,7 @@ namespace Atlas.Logic
             MaxValue = Mathf.Max(MaxValue, MinValue);
             maxValueInput.text = MaxValue.ToString();
 
-            OnMaxValueUpdate.Invoke();
+            OnValueUpdate.Invoke();
         }
 
         public void OnMaxValueChange()
@@ -66,7 +73,7 @@ namespace Atlas.Logic
             MinValue = Mathf.Min(MinValue, MaxValue);
             minValueInput.text = MinValue.ToString();
 
-            OnMaxValueUpdate.Invoke();
+            OnValueUpdate.Invoke();
         }
     }
 }

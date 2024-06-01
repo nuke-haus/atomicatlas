@@ -1,18 +1,19 @@
 
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Atlas.Logic
 {
-    public class NumericEntry : MonoBehaviour
+    public class BooleanEntry : MonoBehaviour
     {
         [SerializeField]
         private TMP_Text labelText;
 
         [SerializeField]
-        private TMP_InputField valueInput;
+        private Toggle toggle;
 
-        public int Value { get; private set; }
+        public bool Value { get; private set; }
 
         public delegate void OnValueChange();
 
@@ -33,21 +34,15 @@ namespace Atlas.Logic
             labelText.text = label;
         }
 
-        public void SetValue(int number)
+        public void SetValue(bool value)
         {
-            Value = number;
-            valueInput.text = number.ToString();
+            Value = value;
+            toggle.isOn = value;
         }
 
-        public void OnNumericValueChange()
+        public void OnBoolValueChange()
         {
-            var text = valueInput.text;
-            if (text == string.Empty)
-            {
-                text = "0";
-            }
-
-            Value = int.Parse(text);
+            Value = toggle.isOn;
 
             OnValueUpdate.Invoke();
         }
