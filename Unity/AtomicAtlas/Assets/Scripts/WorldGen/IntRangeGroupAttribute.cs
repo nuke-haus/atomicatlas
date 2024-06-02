@@ -2,7 +2,7 @@
 
 namespace Atlas.WorldGen
 {
-    [AttributeUsage(AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class IntRangeGroupAttribute : Attribute
     {
         public string GroupName
@@ -11,9 +11,16 @@ namespace Atlas.WorldGen
             private set;
         }
 
-        public IntRangeGroupAttribute(string name)
+        public int MaxValue
+        {
+            get;
+            private set;
+        }
+
+        public IntRangeGroupAttribute(string name, int maxValue)
         {
             GroupName = name;
+            MaxValue = maxValue;
         }
     } 
 }

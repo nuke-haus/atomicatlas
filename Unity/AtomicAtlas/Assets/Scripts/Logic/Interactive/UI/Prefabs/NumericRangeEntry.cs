@@ -17,7 +17,7 @@ namespace Atlas.Logic
 
         public int MinValue { get; private set; }
         public int MaxValue { get; private set; }
-        public IntRange IntRangeValue => new IntRange { Max=MaxValue, Min=MinValue };
+        public IntRange IntRangeValue => new IntRange { Max = MaxValue, Min = MinValue };
 
         public delegate void OnValueChange();
 
@@ -58,7 +58,7 @@ namespace Atlas.Logic
             MaxValue = Mathf.Max(MaxValue, MinValue);
             maxValueInput.text = MaxValue.ToString();
 
-            OnValueUpdate.Invoke();
+            OnValueUpdate?.Invoke();
         }
 
         public void OnMaxValueChange()
@@ -73,7 +73,7 @@ namespace Atlas.Logic
             MinValue = Mathf.Min(MinValue, MaxValue);
             minValueInput.text = MinValue.ToString();
 
-            OnValueUpdate.Invoke();
+            OnValueUpdate?.Invoke();
         }
     }
 }

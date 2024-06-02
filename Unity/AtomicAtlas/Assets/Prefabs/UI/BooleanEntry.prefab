@@ -295,9 +295,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: OnClickDisciplesToggle
+      - m_Target: {fileID: 482199362818357451}
+        m_TargetAssemblyTypeName: Atlas.Logic.BooleanEntry, Atlas.Logic
+        m_MethodName: OnBoolValueChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

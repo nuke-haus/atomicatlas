@@ -44,7 +44,7 @@ namespace Atlas.Logic
         {
             Value = toggle.isOn;
 
-            OnValueUpdate.Invoke();
+            OnValueUpdate?.Invoke();
         }
     }
 }

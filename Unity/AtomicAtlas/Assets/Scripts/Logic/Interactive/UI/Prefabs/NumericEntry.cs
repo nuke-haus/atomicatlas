@@ -49,7 +49,7 @@ namespace Atlas.Logic
 
             Value = int.Parse(text);
 
-            OnValueUpdate.Invoke();
+            OnValueUpdate?.Invoke();
         }
     }
 }

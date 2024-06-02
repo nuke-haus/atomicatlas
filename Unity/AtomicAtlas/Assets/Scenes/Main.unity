@@ -4296,7 +4296,7 @@ MonoBehaviour:
   numericEntryPrefab: {fileID: 6802489435557339806, guid: 7e5a4b71e2a99104eb73554e82edea73, type: 3}
   stringEntryPrefab: {fileID: 6802489435557339806, guid: b6a91de0f4c4c5346bbdcb07abe53c80, type: 3}
   numericRangeEntryPrefab: {fileID: 6802489435557339806, guid: ab5ae458db7ff4f469f49b075d174805, type: 3}
-  numericRangeCollectionPrefab: {fileID: 6802489435557339806, guid: 5d27455298bc5de40af6967e8eb620e8, type: 3}
+  numericRangeGroupPrefab: {fileID: 6802489435557339806, guid: 5d27455298bc5de40af6967e8eb620e8, type: 3}
   playerInfoEntryPrefab: {fileID: 6802489435557339806, guid: 4f252b9ac66a1924a986a9d96a6f58a9, type: 3}
   playerInfoListRoot: {fileID: 875637567}
   playerCountDropdown: {fileID: 690431381}

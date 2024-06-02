@@ -85,7 +85,7 @@ namespace Atlas.Logic
         private GameObject numericRangeEntryPrefab;
 
         [SerializeField]
-        private GameObject numericRangeCollectionPrefab;
+        private GameObject numericRangeGroupPrefab;
 
         [Header("Gameplay Settings")]
         [SerializeField]
@@ -108,6 +108,7 @@ namespace Atlas.Logic
         private List<PlayerInfoEntry> playerInfoEntries = new();
         private List<ErrorLogEntry> errorLogEntries = new();
         private StrategyConfigDefinition strategyConfigDefinition;
+        private NumericRangeCollection currentNumericRangeGroup;
         private IDataManager dataManager;
         private ISettingsManager settingsManager;
 
@@ -204,10 +205,13 @@ namespace Atlas.Logic
                 Destroy(gameObject);
             }
             parameterEditors.Clear();
+            currentNumericRangeGroup = null;
 
             // Use reflection to grab all of the fields of the new config definition
             var type = strategyConfigDefinition.GetType();
             var currentGroupName = string.Empty;
+            var numericRanges = new List<NumericRangeEntry>();
+
             var fields = type.GetFields().Where(f => f.IsPublic).ToList();
             fields.Sort((fieldA, fieldB) =>
             {
@@ -227,7 +231,16 @@ namespace Atlas.Logic
                 if (Attribute.IsDefined(field, typeof(IntRangeGroupAttribute)))
                 {
                     var attr = field.GetCustomAttributes(typeof(IntRangeGroupAttribute), false);
-                    currentGroupName = ((IntRangeGroupAttribute)attr[0]).GroupName;
+                    var groupName = ((IntRangeGroupAttribute)attr[0]).GroupName;
+                    var maxValue = ((IntRangeGroupAttribute)attr[0]).MaxValue;
+
+                    if (groupName != currentGroupName)
+                    {
+                        currentGroupName = groupName;
+                        currentNumericRangeGroup = Instantiate(numericRangeGroupPrefab, parameterListRoot).GetComponent<NumericRangeCollection>();
+                        currentNumericRangeGroup.SetMaxValue(maxValue);
+                        parameterEditors.Add(currentNumericRangeGroup.gameObject);
+                    }
                 }
 
                 if (parameterEditorFunctions.ContainsKey(field.FieldType))
@@ -252,7 +265,14 @@ namespace Atlas.Logic
 
         private void CreateIntRangeEditor(FieldInfo field)
         {
-            var numericRangeEntry = Instantiate(numericRangeEntryPrefab, parameterListRoot).GetComponent<NumericRangeEntry>();
+            var root = parameterListRoot;
+
+            if (Attribute.IsDefined(field, typeof(IntRangeGroupAttribute)))
+            {
+                root = currentNumericRangeGroup.ContainerRoot;
+            }
+
+            var numericRangeEntry = Instantiate(numericRangeEntryPrefab, root).GetComponent<NumericRangeEntry>();
             numericRangeEntry.SetLabel(SanitizeFieldName(field.Name));
             IntRange valueRange = (IntRange)field.GetValue(strategyConfigDefinition);
             numericRangeEntry.SetValues(valueRange.Min, valueRange.Max);
@@ -260,6 +280,11 @@ namespace Atlas.Logic
             {
                 field.SetValue(strategyConfigDefinition, numericRangeEntry.IntRangeValue);
             };
+
+            if (root != parameterListRoot)
+            {
+                currentNumericRangeGroup.AddNumericRange(numericRangeEntry);
+            }
 
             parameterEditors.Add(numericRangeEntry.gameObject);
         }

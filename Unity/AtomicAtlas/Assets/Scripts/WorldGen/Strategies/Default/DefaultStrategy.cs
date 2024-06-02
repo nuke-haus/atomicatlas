@@ -30,6 +30,22 @@ namespace Atlas.WorldGen.Strategies
 
         [XmlElement]
         public IntRange SomeIntRange;
+
+        [XmlElement]
+        [IntRangeGroup("GROUP 1", 100)]
+        public IntRange SomeGroupIntRange1 = new IntRange { Min=0, Max=10 };
+
+        [XmlElement]
+        [IntRangeGroup("GROUP 1", 100)]
+        public IntRange SomeGroupIntRange2 = new IntRange { Min = 3, Max = 13 };
+
+        [XmlElement]
+        [IntRangeGroup("GROUP 2", 50)]
+        public IntRange SomeGroupIntRange3 = new IntRange { Min = 2, Max = 12 };
+
+        [XmlElement]
+        [IntRangeGroup("GROUP 2", 50)]
+        public IntRange SomeGroupIntRange4 = new IntRange { Min = 5, Max = 15 };
     }
 
     [Strategy("DEFAULT STRATEGY", typeof(DefaultStrategyData))]

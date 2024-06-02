@@ -10,11 +10,21 @@ namespace Atlas.Logic
         [SerializeField]
         private TMP_Text labelText;
 
+        [SerializeField]
+        private Transform containerRoot;
+
         private List<NumericRangeEntry> numericRanges = new();
 
+        public Transform ContainerRoot => containerRoot;
         public int MaxValue { get; private set; }
-        public string LabelPrefix { get; private set; }
-        public string LabelPostfix { get; private set; }
+        public string ValueWarning { get; private set; } = "TOTAL EXCEEDS";
+        public string LabelPrefix { get; private set; } = "TOTAL";
+        public string LabelPostfix { get; private set; } = "%";
+
+        private int currentValue;
+
+        private const int padding = 50;
+        private const int thickness = 45;
 
         void Start()
         {
@@ -32,29 +42,39 @@ namespace Atlas.Logic
             LabelPostfix = postfix;
         }
 
-        public void SetNumericRanges(List<NumericRangeEntry> ranges, int maxValue)
+        public void SetMaxValue(int max)
         {
-            numericRanges = ranges;
-            MaxValue = maxValue;
-
-            foreach (var range in ranges)
-            {
-                range.OnValueUpdate += OnValueChange;
-            }
-
-            OnValueChange();
+            MaxValue = max;
         }
 
-        public void OnValueChange()
+        public void AddNumericRange(NumericRangeEntry numericRangeEntry)
         {
-            MaxValue = 0;
+            numericRangeEntry.OnValueUpdate += OnRangeValueChange;
+            numericRanges.Add(numericRangeEntry);
+
+            var rectTransform = GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(0, padding + (thickness * numericRanges.Count));
+
+            OnRangeValueChange();
+        }
+
+        public void OnRangeValueChange()
+        {
+            currentValue = 0;
 
             foreach (var range in numericRanges)
             {
-                MaxValue += range.MaxValue;
+                currentValue += range.MaxValue;
             }
 
-            labelText.text = $"{LabelPrefix}: {MaxValue}{LabelPostfix}";
+            if (currentValue > MaxValue)
+            {
+                labelText.text = $"{ValueWarning} {MaxValue}";
+            }
+            else
+            {
+                labelText.text = $"{LabelPrefix}: {currentValue}{LabelPostfix}";
+            }
         }
     }
 }
