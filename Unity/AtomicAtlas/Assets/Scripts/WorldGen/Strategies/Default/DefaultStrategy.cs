@@ -33,7 +33,7 @@ namespace Atlas.WorldGen.Strategies
 
         [XmlElement]
         [IntRangeGroup("GROUP 1", 100)]
-        public IntRange SomeGroupIntRange1 = new IntRange { Min=0, Max=10 };
+        public IntRange SomeGroupIntRange1 = new IntRange { Min = 0, Max = 10 };
 
         [XmlElement]
         [IntRangeGroup("GROUP 1", 100)]
@@ -64,18 +64,61 @@ namespace Atlas.WorldGen.Strategies
             var mainPlane = new WorldPlane("MAIN PLANE", false);
             var cavePlane = new WorldPlane("CAVE PLANE", true);
 
-            var n1 = mainPlane.CreateNode(new Vector2(0.1f, 0.2f));
-            var n2 = mainPlane.CreateNode(new Vector2(0.2f, 0.3f));
-            mainPlane.CreateConnection(n1, n2, false);
-
-            var cn1 = cavePlane.CreateNode(new Vector2(0.7f, 0.7f));
-            var cn2 = cavePlane.CreateNode(new Vector2(0.7f, 0.8f));
-            cavePlane.CreateConnection(cn1, cn2, false);
+            GenerateSimpleWorld(mainPlane, 8, 8);
+            GenerateSimpleWorld(cavePlane, 8, 8);
 
             world.AddPlane(mainPlane);
             world.AddPlane(cavePlane);
 
             return world;
+        }
+
+        private void GenerateSimpleWorld(WorldPlane plane, int w, int h)
+        {
+            var dict = new Dictionary<Vector2, Node>();
+            float wFloat = (float)w;
+            float hFloat = (float)h;
+
+            for (int i = 0; i < w; i++)
+            {
+                for (int j = 0; j < h; j++)
+                {
+                    float iFloat = (float)i;
+                    float jFloat = (float)j;
+                    float x = Mathf.Clamp(iFloat / wFloat, 0f, 1f);
+                    float y = Mathf.Clamp(jFloat / hFloat, 0f, 1f);
+                    var node = plane.CreateNode(new Vector2(x, y));
+                    dict.Add(new Vector2(x, y), node);
+                }
+            }
+
+            foreach (var key in dict.Keys)
+            {
+                var node = dict[key];
+                var xRight = key.x + (1f / wFloat);
+                var yUp = key.y + (1f / hFloat);
+                bool rightWrap = false;
+                bool upWrap = false;
+
+                if (xRight >= 1f)
+                {
+                    xRight = 0f;
+                    rightWrap = true;
+                }
+                if (yUp >= 1f)
+                {
+                    yUp = 0f;
+                    upWrap = true;
+                }
+
+                var right = new Vector2(xRight, key.y);
+                var up = new Vector2(key.x, yUp);
+                var diag = new Vector2(xRight, yUp);
+
+                plane.CreateConnection(dict[right], node, rightWrap);
+                plane.CreateConnection(dict[up], node, upWrap);
+                plane.CreateConnection(dict[diag], node, rightWrap || upWrap);
+            }
         }
     }
 }

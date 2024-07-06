@@ -85,6 +85,9 @@ namespace Atlas.Logic
         private GameObject numericRangeEntryPrefab;
 
         [SerializeField]
+        private GameObject numericRangeEntryForGroupPrefab;
+
+        [SerializeField]
         private GameObject numericRangeGroupPrefab;
 
         [Header("Gameplay Settings")]
@@ -272,7 +275,17 @@ namespace Atlas.Logic
                 root = currentNumericRangeGroup.ContainerRoot;
             }
 
-            var numericRangeEntry = Instantiate(numericRangeEntryPrefab, root).GetComponent<NumericRangeEntry>();
+            NumericRangeEntry numericRangeEntry;
+
+            if (root != parameterListRoot)
+            {
+                numericRangeEntry = Instantiate(numericRangeEntryForGroupPrefab, root).GetComponent<NumericRangeEntry>();
+            }
+            else
+            {
+                numericRangeEntry = Instantiate(numericRangeEntryPrefab, root).GetComponent<NumericRangeEntry>();
+            }
+
             numericRangeEntry.SetLabel(SanitizeFieldName(field.Name));
             IntRange valueRange = (IntRange)field.GetValue(strategyConfigDefinition);
             numericRangeEntry.SetValues(valueRange.Min, valueRange.Max);

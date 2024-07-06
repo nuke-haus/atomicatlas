@@ -207,9 +207,8 @@ namespace Atlas.Core
             // Retrieve or generate smooth normals
             foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
             {
-
                 // Skip if smooth normals have already been adopted
-                if (!registeredMeshes.Add(meshFilter.sharedMesh))
+                if (meshFilter.sharedMesh == null || !registeredMeshes.Add(meshFilter.sharedMesh))
                 {
                     continue;
                 }
@@ -250,6 +249,10 @@ namespace Atlas.Core
 
         List<Vector3> SmoothNormals(Mesh mesh)
         {
+            if (mesh == null || mesh.vertices == null)
+            {
+                return new List<Vector3>();
+            }
 
             // Group vertices by location
             var groups = mesh.vertices.Select((vertex, index) => new KeyValuePair<Vector3, int>(vertex, index)).GroupBy(pair => pair.Key);

@@ -17,7 +17,7 @@ namespace Atlas.Logic
 
         public Transform ContainerRoot => containerRoot;
         public int MaxValue { get; private set; }
-        public string ValueWarning { get; private set; } = "TOTAL EXCEEDS";
+        public string ValueWarning { get; private set; } = "WARNING: TOTAL EXCEEDS";
         public string LabelPrefix { get; private set; } = "TOTAL";
         public string LabelPostfix { get; private set; } = "%";
 

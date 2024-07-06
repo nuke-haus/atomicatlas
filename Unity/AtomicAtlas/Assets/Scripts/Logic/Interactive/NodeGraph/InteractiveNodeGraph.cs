@@ -31,7 +31,7 @@ namespace Atlas.Logic
         private Vector3 mins;
         private Vector3 maxs;
 
-        private const float PADDING = 200f;
+        private const float PADDING = 400f;
         private const float EDGE_TOLERANCE = 12f;
 
         public void Initialize(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
