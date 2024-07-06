@@ -26,16 +26,16 @@ Work is underway on the map generator and several features are complete. Here is
 - [x] Core architecture: App state machine
 - [x] Core architecture: Manager classes
 - [x] Core architecture: Modular world generator system
+- [x] Core architecture: Camera controls (zoom, pan)
+- [x] Core architecture: Basic map editor tooling for province nodes
+- [x] Core architecture: Basic map editor tooling for province connections
 - [x] UI: Main HUD
 - [x] UI: Context menu for manual editor tools
 - [x] UI: Game settings menu
 - [ ] UI: Generator settings menu
 - [ ] Modular interface for configuring map generation
-- [x] Camera controls (zoom, pan)
 - [x] Interactive node and connection generation
 - [ ] A simple default map generation strategy that is configurable
-- [x] Basic map editor tooling - Ability to modify nodes
-- [x] Basic map editor tooling - Ability to modify connections
 - [ ] Province visualization with 2D generated meshes
 - [ ] Visual representation of vertical and horizontal wrapped provinces
 - [ ] Connection visualization with color coding
