@@ -9,8 +9,9 @@ namespace Atlas.Logic
 {
     public class InteractiveNode : MonoBehaviour
     {
-        public InteractiveNodeGraph ParentNodeGraph => parentGraph;
-        public List<InteractiveConnection> Connections => connections;
+        public InteractiveNodeGraph ParentNodeGraph { get; private set; }
+        public List<InteractiveConnection> Connections { get; private set; } = new();
+        public List<InteractiveNodeGhost> Ghosts { get; private set; } = new();
         public Node Node { get; private set; }
         public bool IsCave { get; private set; }
 
@@ -25,9 +26,6 @@ namespace Atlas.Logic
 
         [SerializeField]
         private GameObject meshObject;
-
-        private List<InteractiveConnection> connections = new();
-        private InteractiveNodeGraph parentGraph;
 
         private List<Vector3> polygonShape = new();
 
@@ -48,6 +46,11 @@ namespace Atlas.Logic
 
         public void SetOutlineVisible(bool visible)
         {
+            foreach (var ghost in Ghosts)
+            {
+                ghost.SetOutlineVisible(visible);
+            }
+
             var outline = gameObject.GetComponent<Outline>();
             outline.OutlineWidth = visible 
                 ? 2.0f 
@@ -56,7 +59,7 @@ namespace Atlas.Logic
 
         public void TrySetPosition(Vector3 position)
         {
-            if (parentGraph.ContainsPosition(position))
+            if (ParentNodeGraph.ContainsPosition(position))
             {
                 transform.position = position;
 
@@ -73,24 +76,24 @@ namespace Atlas.Logic
             transform.localPosition = new Vector3(Node.NormalizedPosition.x * world.WorldSize.x, Node.NormalizedPosition.y * world.WorldSize.y, 0f);
         }
 
-        public void ResetInteractiveConnections()
-        {
-            connections = new List<InteractiveConnection>();
-        }
-
         public bool HasConnection(InteractiveNode node)
         {
-            return connections.Any(x => x.Node1 == node || x.Node2 == node);
+            return Connections.Any(x => x.Node1 == node || x.Node2 == node);
+        }
+
+        public void AddNodeGhost(InteractiveNodeGhost ghost)
+        {
+            Ghosts.Add(ghost);
         }
 
         public void AddInteractiveConnection(InteractiveConnection connection)
         {
-            connections.Add(connection);
+            Connections.Add(connection);
         }
 
         public void RemoveInteractiveConnection(InteractiveConnection connection)
         {
-            connections.Remove(connection);
+            Connections.Remove(connection);
         }
 
         public void SetIsCaveNode(bool isCave)
@@ -100,7 +103,7 @@ namespace Atlas.Logic
 
         public void SetNodeGraph(InteractiveNodeGraph nodeGraph)
         {
-            parentGraph = nodeGraph;
+            ParentNodeGraph = nodeGraph;
         }
 
         public void SetNode(Node n)

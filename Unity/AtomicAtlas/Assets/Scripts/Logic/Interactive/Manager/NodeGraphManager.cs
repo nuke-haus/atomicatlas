@@ -63,7 +63,13 @@ namespace Atlas.Logic
                     if (gameObject != null)
                     {
                         var interactiveNode = gameObject.GetComponentInParent<InteractiveNode>();
+                        var interactiveNodeGhost = gameObject.GetComponentInParent<InteractiveNodeGhost>();
                         var interactiveConnection = gameObject.GetComponentInParent<InteractiveConnection>();
+
+                        if (interactiveNodeGhost != null)
+                        {
+                            interactiveNode = interactiveNodeGhost.ParentNode;
+                        }
 
                         if (interactiveNode != null)
                         {

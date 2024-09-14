@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16078,6 +16077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeGraphRoot: {fileID: 1383040288}
   nodeGraphPrefab: {fileID: 2824999362657575914, guid: 3971bd520aa7eb44281d364b09310c5c, type: 3}
+  nodeGraphGhostPrefab: {fileID: 5228857711778178410, guid: 7e86452d033929b4fbff53495e551a94, type: 3}
   selectionBoxPrefab: {fileID: 2824999362657575914, guid: e1f2a67d14390c64ebcdd3cfd2ee171a, type: 3}
   eventSystem: {fileID: 1438302103}
 --- !u!4 &1215543474

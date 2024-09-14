@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactiveNodePrefab: {fileID: 5228857711778178410, guid: 628abf0ded599214084a3e932e9740f0, type: 3}
+  interactiveNodeGhostPrefab: {fileID: 5228857711778178410, guid: 7e86452d033929b4fbff53495e551a94, type: 3}
   interactiveConnectionPrefab: {fileID: 2400871731811910246, guid: b59257eebf01d114dabb17ab2900058c, type: 3}
   label: {fileID: 2002723045881107632}
 --- !u!120 &3365238805740237186

@@ -19,6 +19,9 @@ namespace Atlas.Logic
         private GameObject interactiveNodePrefab;
 
         [SerializeField]
+        private GameObject interactiveNodeGhostPrefab;
+
+        [SerializeField]
         private GameObject interactiveConnectionPrefab;
 
         [SerializeField]
@@ -28,6 +31,7 @@ namespace Atlas.Logic
 
         private List<InteractiveConnection> connections;
         private List<InteractiveNode> nodes;
+        private List<InteractiveNodeGhost> nodeGhosts;
         private Vector3 mins;
         private Vector3 maxs;
 
@@ -38,6 +42,7 @@ namespace Atlas.Logic
         {
             nodes = new List<InteractiveNode>();
             connections = new List<InteractiveConnection>();
+            nodeGhosts = new List<InteractiveNodeGhost>();
 
             transform.position = new Vector3(0f, (offset * (world.WorldSize.y + PADDING)), 0f);
 
@@ -53,8 +58,7 @@ namespace Atlas.Logic
 
         public void Destroy()
         {
-            RemoveConnections(connections.Count);
-            RemoveNodes(nodes.Count);
+            ClearPools();
             Destroy(gameObject);
         }
 
@@ -93,35 +97,36 @@ namespace Atlas.Logic
             }
 
             var pts = new List<Vector3>
-        {
-            mins,
-            new Vector3(mins.x, maxs.y, maxs.z),
-            maxs,
-            new Vector3(maxs.x, mins.y, mins.z)
-        };
+            {
+                mins,
+                new Vector3(mins.x, maxs.y, maxs.z),
+                maxs,
+                new Vector3(maxs.x, mins.y, mins.z)
+            };
 
             GetComponent<LineRenderer>().SetPositions(pts.ToArray());
         }
 
         private void RegenerateWorld(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
         {
-            ResizePools(worldPlane.Nodes.Count, worldPlane.Connections.Count);
+            ClearPools();
 
             for (int i = 0; i < worldPlane.Nodes.Count; i++)
             {
-                nodes[i].SetNodeGraph(this);
-                nodes[i].SetIsCaveNode(worldPlane.IsCave);
-                nodes[i].SetNode(worldPlane.Nodes[i]);
-                nodes[i].ResetInteractiveConnections();
-                nodes[i].SetPosition(world);
+                var node = AddNode();
+                node.SetNodeGraph(this);
+                node.SetIsCaveNode(worldPlane.IsCave);
+                node.SetNode(worldPlane.Nodes[i]);
+                node.SetPosition(world);
             }
 
             for (int i = 0; i < worldPlane.Connections.Count; i++)
             {
-                connections[i].SetConnection(worldPlane.Connections[i]);
-                connections[i].SetNode1(null);
-                connections[i].SetNode2(null);
-                connections[i].SetPosition(world);
+                var connection = AddConnection();
+                connection.SetConnection(worldPlane.Connections[i]);
+                connection.SetNode1(null);
+                connection.SetNode2(null);
+                connection.SetPosition(world);
             }
 
             foreach (var node in nodes)
@@ -135,71 +140,76 @@ namespace Atlas.Logic
                     }
                 }
             }
-        }
 
-        private void ResizePools(int count, int connectionCount)
-        {
-            if (nodes.Any())
+            foreach (var node in nodes)
             {
-                if (nodes.Count > count)
+                foreach (var connection in node.Connections)
                 {
-                    RemoveNodes(nodes.Count - count);
-                }
-                else if (nodes.Count < count)
-                {
-                    AddNodes(count - nodes.Count);
-                }
-            }
-            else
-            {
-                AddNodes(count);
-            }
+                    if (connection.IsWrapConnection)
+                    {
+                        var otherNode = connection.Node1 == node
+                            ? connection.Node2
+                            : connection.Node1;
 
-            if (connections.Any())
-            {
-                if (connections.Count > connectionCount)
-                {
-                    RemoveConnections(nodes.Count - connectionCount);
+                        var ghost = AddNodeGhost();
+                        ghost.SetParentNode(node);
+                        ghost.SetConnection(connection);
+                        ghost.SetPosition(world, otherNode);
+                        node.AddNodeGhost(ghost);
+
+                        if (node == connection.Node1)
+                        {
+                            connection.SetNode2Ghost(ghost);
+                        }
+                        else
+                        {
+                            connection.SetNode1Ghost(ghost);
+                        }
+                    }
                 }
-                else if (connections.Count < connectionCount)
-                {
-                    AddConnections(connectionCount - nodes.Count);
-                }
-            }
-            else
-            {
-                AddConnections(connectionCount);
             }
         }
 
-        private void RemoveConnections(int count)
+        private InteractiveNode AddNode()
         {
-            for (int i = 0; i < count; i++)
-            {
-                var connection = connections[0];
-                connections.RemoveAt(0);
-
-                Destroy(connection.gameObject);
-            }
+            var node = Instantiate(interactiveNodePrefab, gameObject.transform).GetComponent<InteractiveNode>();
+            nodes.Add(node);
+            return node;
         }
 
-        private void AddConnections(int count)
+        private InteractiveNodeGhost AddNodeGhost()
         {
-            for (int i = 0; i < count; i++)
-            {
-                connections.Add(Instantiate(interactiveConnectionPrefab, gameObject.transform).GetComponent<InteractiveConnection>());
-            }
+            var ghost = Instantiate(interactiveNodeGhostPrefab, gameObject.transform).GetComponent<InteractiveNodeGhost>();
+            nodeGhosts.Add(ghost);
+            return ghost;
         }
 
-        private void RemoveNodes(int count)
+        private InteractiveConnection AddConnection()
         {
-            for (int i = 0; i < count; i++)
-            {
-                var node = nodes[0];
-                nodes.RemoveAt(0);
+            var conn = Instantiate(interactiveConnectionPrefab, gameObject.transform).GetComponent<InteractiveConnection>();
+            connections.Add(conn);
+            return conn;
+        }
 
+        private void ClearPools()
+        {
+            foreach (var node in nodes)
+            {
                 Destroy(node.gameObject);
             }
+            nodes.Clear();
+
+            foreach (var connection in connections)
+            {
+                Destroy(connection.gameObject);
+            }
+            connections.Clear();
+
+            foreach (var ghost in nodeGhosts)
+            {
+                Destroy(ghost.gameObject);   
+            }
+            nodeGhosts.Clear();
         }
 
         public void ConnectNodes(InteractiveNode node1, InteractiveNode node2)
@@ -214,8 +224,6 @@ namespace Atlas.Logic
                 connection.SetConnection(conn);
                 connection.SetNode1(node1);
                 connection.SetNode2(node2);
-                connection.UpdatePosition();
-                connection.UpdateVisuals();
 
                 node1.AddInteractiveConnection(connection);
                 node2.AddInteractiveConnection(connection);
@@ -268,14 +276,6 @@ namespace Atlas.Logic
             node.SetNodeGraph(this);
 
             nodes.Add(node);
-        }
-
-        private void AddNodes(int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                nodes.Add(Instantiate(interactiveNodePrefab, gameObject.transform).GetComponent<InteractiveNode>());
-            }
         }
     }
 }
