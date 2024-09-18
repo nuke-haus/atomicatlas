@@ -110,7 +110,21 @@ namespace Atlas.Logic
         private void RegenerateWorld(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
         {
             ClearPools();
+            GenerateInteractiveWorld(world, worldPlane, offset, sortType);
+           
+        }
 
+        private void ValidateGraphTriangulation()
+        {
+
+        }
+
+        /// <summary>
+        /// Instantiate interactive stuff: nodes, connections, node ghosts
+        /// </summary>
+        private void GenerateInteractiveWorld(World world, WorldPlane worldPlane, int offset, NodeGraphSortType sortType)
+        {
+            // Generate nodes
             for (int i = 0; i < worldPlane.Nodes.Count; i++)
             {
                 var node = AddNode();
@@ -120,6 +134,7 @@ namespace Atlas.Logic
                 node.SetPosition(world);
             }
 
+            // Generate connections
             for (int i = 0; i < worldPlane.Connections.Count; i++)
             {
                 var connection = AddConnection();
@@ -129,6 +144,7 @@ namespace Atlas.Logic
                 connection.SetPosition(world);
             }
 
+            // Link nodes to connections
             foreach (var node in nodes)
             {
                 foreach (var connection in connections)
@@ -141,31 +157,23 @@ namespace Atlas.Logic
                 }
             }
 
-            foreach (var node in nodes)
+            // Generate node ghosts at edges
+            foreach (var connection in connections)
             {
-                foreach (var connection in node.Connections)
+                if (connection.IsWrapConnection)
                 {
-                    if (connection.IsWrapConnection)
-                    {
-                        var otherNode = connection.Node1 == node
-                            ? connection.Node2
-                            : connection.Node1;
+                    var ghost1 = AddNodeGhost();
+                    ghost1.SetParentNode(connection.Node1);
+                    ghost1.SetConnection(connection);
+                    ghost1.SetPosition(world, connection.Node2);
 
-                        var ghost = AddNodeGhost();
-                        ghost.SetParentNode(node);
-                        ghost.SetConnection(connection);
-                        ghost.SetPosition(world, otherNode);
-                        node.AddNodeGhost(ghost);
+                    var ghost2 = AddNodeGhost();
+                    ghost2.SetParentNode(connection.Node2);
+                    ghost2.SetConnection(connection);
+                    ghost2.SetPosition(world, connection.Node1);
 
-                        if (node == connection.Node1)
-                        {
-                            connection.SetNode2Ghost(ghost);
-                        }
-                        else
-                        {
-                            connection.SetNode1Ghost(ghost);
-                        }
-                    }
+                    connection.SetNode1Ghost(ghost1);
+                    connection.SetNode2Ghost(ghost2);
                 }
             }
         }
@@ -191,6 +199,9 @@ namespace Atlas.Logic
             return conn;
         }
 
+        /// <summary>
+        /// Delete every interactive thing
+        /// </summary>
         private void ClearPools()
         {
             foreach (var node in nodes)

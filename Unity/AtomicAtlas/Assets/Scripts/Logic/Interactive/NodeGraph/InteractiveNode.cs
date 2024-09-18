@@ -44,6 +44,21 @@ namespace Atlas.Logic
 
         }
 
+        public IEnumerable<InteractiveNode> GetConnectedNodes()
+        {
+            foreach (var connection in Connections)
+            {
+                if (connection.Node1 == this)
+                {
+                    yield return connection.Node2;
+                }
+                else
+                {
+                    yield return connection.Node1;
+                }
+            }
+        }
+
         public void SetOutlineVisible(bool visible)
         {
             foreach (var ghost in Ghosts)

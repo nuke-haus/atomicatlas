@@ -61,11 +61,14 @@ namespace Atlas.WorldGen.Strategies
             var strategyDefinition = (DefaultStrategyConfigDefinition)definition;
             var world = new World(new Vector2(2048, 1024));
 
-            var mainPlane = new WorldPlane("MAIN PLANE", false);
-            var cavePlane = new WorldPlane("CAVE PLANE", true);
+            //var mainPlane = new WorldPlane("MAIN PLANE", false);
+            //var cavePlane = new WorldPlane("CAVE PLANE", true);
+           
+            //GenerateSimpleWorld(mainPlane, 8, 8);
+            //GenerateSimpleWorld(cavePlane, 8, 8);
 
-            GenerateSimpleWorld(mainPlane, 8, 8);
-            GenerateSimpleWorld(cavePlane, 8, 8);
+            var mainPlane = GenerationHelper.GenerateRandomizedWorldPlane("MAIN PLANE", false, 8, 8, 0.4f);
+            var cavePlane = GenerationHelper.GenerateRandomizedWorldPlane("CAVE PLANE", true, 8, 8, 0.4f);
 
             world.AddPlane(mainPlane);
             world.AddPlane(cavePlane);

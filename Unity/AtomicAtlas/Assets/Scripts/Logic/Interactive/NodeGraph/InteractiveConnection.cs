@@ -2,7 +2,6 @@
 using UnityEngine;
 using Atlas.WorldGen;
 using Atlas.Core;
-using Codice.CM.Client.Differences;
 
 namespace Atlas.Logic
 {
