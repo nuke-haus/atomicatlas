@@ -6,11 +6,11 @@ namespace Atlas.Core
     /// <summary>
     /// Used to generate triangles for meshes from a given array of border points.
     /// </summary>
-    public class Triangulator
+    public class MeshTriangulator
     {
         private readonly List<Vector2> borderPoints = new List<Vector2>();
 
-        public Triangulator(Vector2[] points)
+        public MeshTriangulator(Vector2[] points)
         {
             borderPoints = new List<Vector2>(points);
         }

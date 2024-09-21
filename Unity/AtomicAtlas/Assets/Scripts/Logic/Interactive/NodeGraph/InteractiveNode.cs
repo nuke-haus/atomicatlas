@@ -151,7 +151,7 @@ namespace Atlas.Logic
         {
             // TODO generate the shape first
 
-            var triangulator = new Triangulator(GetVector2Array(polygonShape));
+            var triangulator = new MeshTriangulator(GetVector2Array(polygonShape));
             var indices = triangulator.Triangulate();
             var uv = new Vector2[polygonShape.Count];
 

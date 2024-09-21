@@ -39,9 +39,11 @@ namespace Atlas.WorldGen
             return null;
         }
 
-        public void CreateConnection(Node node1, Node node2, bool isWrap)
+        public Connection CreateConnection(Node node1, Node node2, bool isWrap)
         {
-            connections.Add(node1.CreateConnection(node2, isWrap));
+            var connection = node1.CreateConnection(node2, isWrap);
+            connections.Add(connection);
+            return connection;
         }
     } 
 }
