@@ -13,13 +13,32 @@ namespace Atlas.WorldGen
         public Terrain Terrain { get; private set; }
         public Fort Fort { get; private set; }
         public string NameOverride { get; private set; }
+        public Node ParentNode { get; private set; }
+        public bool IsPlaceholderNode => ParentNode != null;
+        public bool HasWrapConnection => connections.Any(conn => conn.IsWrapConnection);
 
         private List<Connection> connections = new();
 
-        public Node(Vector2 position, Terrain terrain)
+        public Node(Vector2 position, Terrain terrain, Node parentNode = null)
         {
             NormalizedPosition = position;
             Terrain = terrain;
+            ParentNode = parentNode;
+        }
+
+        public IEnumerable<Node> GetConnectedNodes()
+        {
+            foreach (var connection in connections)
+            {
+                if (connection.Node1 != this)
+                {
+                    yield return connection.Node1;
+                }
+                else
+                {
+                    yield return connection.Node2;
+                }
+            }
         }
 
         public void SetHasFort(bool hasFort)

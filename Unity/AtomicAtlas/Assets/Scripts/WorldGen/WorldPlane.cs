@@ -10,11 +10,13 @@ namespace Atlas.WorldGen
         public bool IsCave => isCave;
         public string Name => name;
         public List<Node> Nodes => nodes;
+        public List<Node> PlaceholderNodes => placeholderNodes;
         public List<Connection> Connections => connections;
 
         private bool isCave;
         private string name;
         private List<Node> nodes = new();
+        private List<Node> placeholderNodes = new();
         private List<Connection> connections = new();
 
         public WorldPlane(string planeName, bool cave)
@@ -23,20 +25,38 @@ namespace Atlas.WorldGen
             isCave = cave;
         }
 
-        public Node CreateNode(Vector2 position)
+        private Node CreateNode(Vector2 position, Terrain terrain, Node parent = null)
         {
-            if (position.x > 1.0f || position.x < 0f || position.y > 1.0f || position.y < 0f)
+            if (parent == null && (position.x > 1.0f || position.x < 0f || position.y > 1.0f || position.y < 0f))
             {
                 Debug.LogError("World plane tried to create an node in a non-normalized position");
             }
             else
             {
-                var node = new Node(position, Terrain.PLAINS);
-                nodes.Add(node);
+                var node = new Node(position, terrain, parent);
+
+                if (parent == null)
+                {
+                    nodes.Add(node);
+                }
+                else
+                {
+                    placeholderNodes.Add(node);
+                }
 
                 return node;
             }
             return null;
+        }
+
+        public Node CreatePlaceholderNode(Vector2 position, Node parent)
+        {
+            return CreateNode(position, Terrain.PLAINS, parent);
+        }
+
+        public Node CreateNode(Vector2 position)
+        {
+            return CreateNode(position, Terrain.PLAINS);
         }
 
         public Connection CreateConnection(Node node1, Node node2, bool isWrap)
@@ -44,6 +64,11 @@ namespace Atlas.WorldGen
             var connection = node1.CreateConnection(node2, isWrap);
             connections.Add(connection);
             return connection;
+        }
+
+        public void DeletePlaceholderNodes()
+        {
+            placeholderNodes.Clear();
         }
     } 
 }
